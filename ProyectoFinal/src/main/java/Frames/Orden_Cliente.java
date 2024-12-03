@@ -4,9 +4,10 @@
  */
 package Frames;
 
-import com.mycompany.proyectofinal.Camion;
-import com.mycompany.proyectofinal.Moto;
-import com.mycompany.proyectofinal.Vehiculo;
+import Vehiculos.Carro;
+import Vehiculos.Camion;
+import Vehiculos.Moto;
+import Vehiculos.Vehiculo;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -229,13 +230,13 @@ public class Orden_Cliente extends javax.swing.JFrame {
     }
  
     if (tipo.equals("Motocicleta")) {
-        Moto moto = new Moto(marca, placa);
+        Moto moto = new Moto(tipo, marca, placa);
         JOptionPane.showMessageDialog(this, "Motocicleta agregada:\n" + moto);
     } else if (tipo.equals("Carro")) {
-        Vehiculo vehiculo = new Vehiculo(marca, placa);
-        JOptionPane.showMessageDialog(this, "Carro agregado:\n" + vehiculo);
+        Carro carro = new Carro(tipo, marca, placa) {};
+        JOptionPane.showMessageDialog(this, "Carro agregado:\n" + carro);
     } else if (tipo.equals("Camión")) {
-        Camion camion = new Camion(marca, placa);
+        Camion camion = new Camion(tipo, marca, placa);
         JOptionPane.showMessageDialog(this, "Camión agregado:\n" + camion);
     } else {
         JOptionPane.showMessageDialog(this, "Tipo de vehículo no reconocido.");

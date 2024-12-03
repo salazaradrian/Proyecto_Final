@@ -14,37 +14,13 @@ public abstract class Vehiculo {
     
     protected String marca;
     protected String modelo;
-    protected int año;
     protected String placa;
-    protected String ubicacion;
     protected Usuario usuario;
-    protected int cargamaxima;
-    protected int cargaactual;
 
-    public Vehiculo(int cargamaxima, String marca, String modelo, int año, String placa) {
+    public Vehiculo(String marca, String modelo, String placa) {
         this.marca = marca;
         this.modelo = modelo;
-        this.año = año;
         this.placa = placa;
-        this.cargamaxima = cargamaxima;
-    }
-
-    public int getCargaactual() {
-        return cargaactual;
-    }
-
-    public void setCargaactual(int cargaactual) {
-        this.cargaactual = cargaactual;
-    }
-    
-    
-
-    public void setCargamaxima(int cargamaxima) {
-        this.cargamaxima = cargamaxima;
-    }
-
-    public int getCargamaxima() {
-        return cargamaxima;
     }
 
     public String getMarca() {
@@ -55,16 +31,8 @@ public abstract class Vehiculo {
         return modelo;
     }
 
-    public int getAño() {
-        return año;
-    }
-
     public String getPlaca() {
         return placa;
-    }
-
-    public String getUbicacion() {
-        return ubicacion;
     }
 
     public Usuario getUsuario() {
@@ -79,16 +47,8 @@ public abstract class Vehiculo {
         this.modelo = modelo;
     }
 
-    public void setAño(int año) {
-        this.año = año;
-    }
-
     public void setPlaca(String placa) {
         this.placa = placa;
-    }
-
-    public void setUbicacion(String ubicacion) {
-        this.ubicacion = ubicacion;
     }
 
     public void setUsuario(Usuario usuario) {

@@ -4,6 +4,7 @@
 
 package com.mycompany.proyectofinal;
 
+import Database.Conexion;
 import java.sql.Connection;
 
 /**

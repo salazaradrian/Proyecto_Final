@@ -1,5 +1,5 @@
 
-package com.mycompany.proyectofinal;
+package Database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -2,20 +2,21 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.proyectofinal;
+package Vehiculos;
+
+import Vehiculos.Vehiculo;
 
 /**
  *
  * @author rperez
  */
-public class Moto extends Vehiculo{
-    
-    protected TipoCarga tipocarga;
+public class Camion extends Vehiculo {
+   
 
-    public Moto(int cargamaxima, String marca, String modelo, int año, String placa) {
+    public Camion(int cargamaxima, String marca, String modelo, int año, String placa) {
         super(cargamaxima, marca, modelo, año, placa);
-           
     }
+    
 
     @Override
     public void actualizarUsuario() {
@@ -31,7 +32,6 @@ public class Moto extends Vehiculo{
     public void obtenerubicacion() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
     
     
     

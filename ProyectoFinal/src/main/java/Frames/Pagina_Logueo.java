@@ -4,6 +4,13 @@
  */
 package Frames;
 
+import Database.Conexion;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author asala
@@ -153,7 +160,62 @@ public class Pagina_Logueo extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btningresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btningresarActionPerformed
-        // TODO add your handling code here:
+        // Retrieve username and password from text fields
+    String username = txtuser.getText();
+    String password = txtpassword.getText();
+
+    // Validate input
+    if (username.isEmpty() || password.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Please enter username and password");
+        return;
+    }
+
+    // Create an instance of Conexion and connect to the database
+    Conexion conexion = new Conexion();
+    Connection con = conexion.conectar();
+
+    if (con == null) {
+        JOptionPane.showMessageDialog(this, "Database connection failed");
+        return;
+    }
+
+    try {
+        // SQL query to validate user credentials and get their role
+        String query = "SELECT r.tipoRol FROM Usuario u " +
+                       "JOIN Rol r ON u.idRol = r.idRol " +
+                       "WHERE u.usuario = ? AND u.contrasena = ?";
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setString(1, username);
+        ps.setString(2, password);
+
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            // Get the role of the user
+            String role = rs.getString("tipoRol");
+
+            // Open the appropriate JFrame based on the role
+            if (role.equals("Mecanico")) {
+                new Pagina_Mecanico().setVisible(true);
+            } else if (role.equals("UsuarioGeneral")) {
+                new Orden_Cliente().setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "Role not recognized");
+            }
+
+            // Close the login JFrame
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "Invalid username or password");
+        }
+
+        // Close resources
+        rs.close();
+        ps.close();
+        conexion.desconectar();
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+    }
     }//GEN-LAST:event_btningresarActionPerformed
 
     /**

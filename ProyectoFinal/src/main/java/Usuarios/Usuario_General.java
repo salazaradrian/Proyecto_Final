@@ -4,8 +4,10 @@
  */
 package Usuarios;
 
+import Ordenes.OrdenReparacion;
 import Usuarios.Usuario;
 import Vehiculos.Vehiculo;
+import java.util.ArrayList;
 
 /**
  *
@@ -13,22 +15,13 @@ import Vehiculos.Vehiculo;
  */
 public class Usuario_General extends Usuario{
     
-    protected Vehiculo vehiculo;
+    protected ArrayList<Vehiculo> vehiculos;
+    protected ArrayList<OrdenReparacion> ordenes_reparacion;
 
-    public Usuario_General(String nombre, String usuario, String contraseña, int id) {
-        super(nombre, usuario, contraseña, id);
+    public Usuario_General(String nombre, String usuario, String contraseña, Rol rol) {
+        super(nombre, usuario, contraseña, rol);
 
     }
-
-    public Vehiculo getVehiculo() {
-        return vehiculo;
-    }
-
-
-    public void setVehiculo(Vehiculo vehiculo) {
-        this.vehiculo = vehiculo;
-    }
-
 
     @Override
     public void IniciarSesion() {
@@ -49,6 +42,23 @@ public class Usuario_General extends Usuario{
     public void ActualizarPerfil() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+    public ArrayList<Vehiculo> getVehiculos() {
+        return vehiculos;
+    }
+
+    public ArrayList<OrdenReparacion> getOrdenes_reparacion() {
+        return ordenes_reparacion;
+    }
+
+    public void setVehiculos(ArrayList<Vehiculo> vehiculos) {
+        this.vehiculos = vehiculos;
+    }
+
+    public void setOrdenes_reparacion(ArrayList<OrdenReparacion> ordenes_reparacion) {
+        this.ordenes_reparacion = ordenes_reparacion;
+    }
+    
     
     public void asignarvehiculo(){
         

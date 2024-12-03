@@ -12,13 +12,13 @@ public abstract class Usuario {
     protected String nombre;
     protected String usuario;
     protected String contraseña;
-    protected int id;
+    protected Rol rol;
 
-    public Usuario(String nombre, String usuario, String contraseña, int id) {
+    public Usuario(String nombre, String usuario, String contraseña, Rol rol) {
         this.nombre = nombre;
         this.usuario = usuario;
         this.contraseña = contraseña;
-        this.id = id;
+        this.rol = rol;
     }
 
     public String getNombre() {
@@ -33,9 +33,11 @@ public abstract class Usuario {
         return contraseña;
     }
 
-    public int getId() {
-        return id;
+    public Rol getRol() {
+        return rol;
     }
+    
+
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
@@ -49,9 +51,12 @@ public abstract class Usuario {
         this.contraseña = contraseña;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setRol(Rol rol) {
+        this.rol = rol;
     }
+    
+    
+
 //    
     
     public abstract void IniciarSesion();

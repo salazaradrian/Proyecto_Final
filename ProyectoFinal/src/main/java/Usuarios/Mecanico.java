@@ -4,7 +4,10 @@
  */
 package Usuarios;
 
+import Ordenes.OrdenPieza;
+import Ordenes.OrdenReparacion;
 import Usuarios.Usuario;
+import java.util.ArrayList;
 
 /**
  *
@@ -12,13 +15,14 @@ import Usuarios.Usuario;
  */
 public class Mecanico extends Usuario{
     
-    protected String direccion;
-    protected int estado;
-
-    public Mecanico(String ubicacion,String nombre, String usuario, String contraseña, int id) {
-        super(nombre, usuario, contraseña, id);
-        this.direccion = ubicacion;
-        this.estado = estado;
+    private ArrayList<OrdenReparacion> ordenes_reparacion;
+    private ArrayList<OrdenPieza> ordenes_piezas;
+    
+    
+    
+    public Mecanico(String ubicacion,String nombre, String usuario, String contraseña, Rol rol) {
+        super(nombre, usuario, contraseña, rol);
+        
     }
     
     
@@ -42,22 +46,21 @@ public class Mecanico extends Usuario{
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    public String getUbicacion() {
-        return direccion;
+    public ArrayList<OrdenReparacion> getOrdenes_reparacion() {
+        return ordenes_reparacion;
     }
 
-    public int getEstado() {
-        return estado;
+    public ArrayList<OrdenPieza> getOrdenes_piezas() {
+        return ordenes_piezas;
     }
 
-    public void setUbicacion(String ubicacion) {
-        this.direccion = direccion;
+    public void setOrdenes_reparacion(ArrayList<OrdenReparacion> ordenes_reparacion) {
+        this.ordenes_reparacion = ordenes_reparacion;
     }
 
-    public void setEstado(int estado) {
-        this.estado = estado;
+    public void setOrdenes_piezas(ArrayList<OrdenPieza> ordenes_piezas) {
+        this.ordenes_piezas = ordenes_piezas;
     }
-    
     
     public void crearOrdenReparacion(){
         

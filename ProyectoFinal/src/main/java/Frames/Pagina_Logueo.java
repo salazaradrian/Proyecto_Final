@@ -58,6 +58,11 @@ public class Pagina_Logueo extends javax.swing.JFrame {
         txtpassword.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         btningresar.setText("Ingresar");
+        btningresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btningresarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -97,8 +102,6 @@ public class Pagina_Logueo extends javax.swing.JFrame {
                 .addComponent(btningresar)
                 .addContainerGap(16, Short.MAX_VALUE))
         );
-
-        jLabel3.setIcon(new javax.swing.ImageIcon("C:\\Users\\asala\\Downloads\\contrasena.png")); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         jLabel4.setText("SISTEMA DE GESTION DE VEHICULOS");
@@ -148,6 +151,10 @@ public class Pagina_Logueo extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btningresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btningresarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btningresarActionPerformed
 
     /**
      * @param args the command line arguments

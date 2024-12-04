@@ -10,63 +10,37 @@ import java.util.ArrayList;
  *
  * @author rperez
  */
-public class OrdenReparacion {
+public class OrdenReparacion extends Orden{
     
-    protected int orden;
-    protected String estado;
+    protected ArrayList<Piezas> piezas;
     protected Vehiculo vehiculo;
-    protected ArrayList<String> piezas;
 
-    public OrdenReparacion(int orden, String estado, Vehiculo vehiculo) {
-        this.orden = orden;
-        this.estado = estado;
+    public OrdenReparacion(Vehiculo vehiculo) {
+        super(Estado.Pendiente, 0.0f); 
+        this.piezas = new ArrayList<>();
         this.vehiculo = vehiculo;
     }
-
-    public int getOrden() {
-        return orden;
-    }
-
-    public String getEstado() {
-        return estado;
+    
+    
+    public ArrayList<Piezas> getPiezas() {
+        return piezas;
     }
 
     public Vehiculo getVehiculo() {
         return vehiculo;
     }
 
-    public void setOrden(int orden) {
-        this.orden = orden;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
+    public void setPiezas(ArrayList<Piezas> piezas) {
+        this.piezas = piezas;
     }
 
     public void setVehiculo(Vehiculo vehiculo) {
         this.vehiculo = vehiculo;
     }
 
-    public ArrayList<String> getPiezas() {
-        return piezas;
+    @Override
+    public String toString() {
+        return "OrdenReparacion{" + "piezas=" + piezas + ", vehiculo=" + vehiculo + '}';
     }
-
-    public void setPiezas(ArrayList<String> piezas) {
-        this.piezas = piezas;
-    }
-    
-    
-    public void actualiazarestado(){
-        
-    }
-    
-    public void agregarPieza(){
-        
-    }
-    
-    public void removerPieza(){
-        
-    }
-    
     
 }

@@ -11,13 +11,11 @@ import Vehiculos.Vehiculo;
  * @author rperez
  */
 public class Moto extends Vehiculo{
-    
 
-    public Moto(int cargamaxima, String marca, String modelo, int año, String placa) {
-        super(cargamaxima, marca, modelo, año, placa);
-           
+    public Moto(String marca, String modelo, String placa) {
+        super(marca, modelo, placa);
     }
-
+    
     @Override
     public void actualizarUsuario() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody

@@ -1,18 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Vehiculos;
 
 import Vehiculos.Vehiculo;
 
-/**
- *
- * @author rperez
- */
-public class Camion extends Vehiculo {
+public class Carro extends Vehiculo{
 
-    public Camion(String marca, String modelo, String placa) {
+    public Carro(String marca, String modelo, String placa) {
         super(marca, modelo, placa);
     }
     
@@ -30,7 +22,4 @@ public class Camion extends Vehiculo {
     public void obtenerubicacion() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
-    
-    
 }

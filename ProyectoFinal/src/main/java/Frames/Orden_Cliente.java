@@ -51,7 +51,7 @@ public class Orden_Cliente extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2), "Gestion de Ordenes", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 3, 14))); // NOI18N
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(null, null), null, null, null, new java.awt.Font("Segoe UI", 3, 14))); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel1.setText("Tipo Vehiculo:");
@@ -124,7 +124,7 @@ public class Orden_Cliente extends javax.swing.JFrame {
 
         btnagregarorden.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnagregarorden.setText("Agregar Orden");
-        btnagregarorden.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, null, null, new java.awt.Color(0, 51, 255)));
+        btnagregarorden.setBorder(javax.swing.BorderFactory.createBevelBorder(null, null, null, null, new java.awt.Color(0, 51, 255)));
         btnagregarorden.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnagregarordenActionPerformed(evt);
@@ -133,19 +133,19 @@ public class Orden_Cliente extends javax.swing.JFrame {
 
         btneliminarorden.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btneliminarorden.setText("Eliminar Orden");
-        btneliminarorden.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, null, null, new java.awt.Color(0, 51, 255)));
+        btneliminarorden.setBorder(javax.swing.BorderFactory.createBevelBorder(null, null, null, null, new java.awt.Color(0, 51, 255)));
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 51, 255), 2), "  Orden de Reparación  ", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 3, 14))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 51, 255), null), null, null, null, new java.awt.Font("Segoe UI", 3, 14))); // NOI18N
 
         tblOrdenes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Orden", "Marca", "Placa", "Tipo Vehiculo", "Piezas", "Estado", "Precio"
+                "Orden", "Marca", "Placa", "Tipo Vehiculo", "Piezas", "Estado", "Precio", "Des.Problema"
             }
         ));
         jScrollPane1.setViewportView(tblOrdenes);
@@ -169,7 +169,7 @@ public class Orden_Cliente extends javax.swing.JFrame {
 
         btncerrarsesion.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         btncerrarsesion.setText("Cerrar Sesion");
-        btncerrarsesion.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, null, null, new java.awt.Color(255, 102, 0)));
+        btncerrarsesion.setBorder(javax.swing.BorderFactory.createBevelBorder(null, null, null, null, new java.awt.Color(255, 102, 0)));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

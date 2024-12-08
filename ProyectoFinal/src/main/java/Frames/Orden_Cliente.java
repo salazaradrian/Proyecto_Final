@@ -4,10 +4,15 @@
  */
 package Frames;
 
+import Database.Conexion;
+import Frames.Pagina_Logueo;
 import Vehiculos.Carro;
 import Vehiculos.Camion;
 import Vehiculos.Moto;
 import Vehiculos.Vehiculo;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -17,11 +22,36 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Orden_Cliente extends javax.swing.JFrame {
 
+     // Método para eliminar la orden de la base de datos
+    private void eliminarOrden(int id) {
+        // Crear una conexión a la base de datos
+        Conexion conexion = new Conexion();
+        Connection conn = conexion.conectar();
+        if (conn != null) {
+            try {
+                // Sentencia SQL para eliminar la orden en la base de datos
+                String sql = "DELETE FROM Ordenes_Cliente WHERE id = ?";
+                PreparedStatement pst = conn.prepareStatement(sql);
+                pst.setInt(1, id);
+                pst.executeUpdate();  // Ejecutar la eliminación
+
+                // Cerrar la conexión
+                pst.close();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, "Error al eliminar la orden: " + e.getMessage());
+            } finally {
+                conexion.desconectar();
+            }
+        }
+    }
     /**
      * Creates new form Orden_Cliente
      */
     public Orden_Cliente() {
         initComponents();
+        
+       
+
     }
 
     /**
@@ -43,9 +73,9 @@ public class Orden_Cliente extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         txtproblema = new javax.swing.JTextField();
         btnagregarorden = new javax.swing.JButton();
-        btneliminarorden = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        jScrollPane2 = new javax.swing.JScrollPane();
         tblOrdenes = new javax.swing.JTable();
         btncerrarsesion = new javax.swing.JButton();
 
@@ -118,7 +148,7 @@ public class Orden_Cliente extends javax.swing.JFrame {
                 .addGap(26, 26, 26)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtproblema, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                .addComponent(txtproblema, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -131,24 +161,26 @@ public class Orden_Cliente extends javax.swing.JFrame {
             }
         });
 
-        btneliminarorden.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btneliminarorden.setText("Eliminar Orden");
-        btneliminarorden.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, null, null, new java.awt.Color(0, 51, 255)));
+        btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnEliminar.setText("Eliminar Orden");
+        btnEliminar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, null, null, new java.awt.Color(0, 51, 255)));
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 51, 255), 2), "  Orden de Reparación  ", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 3, 14))); // NOI18N
 
         tblOrdenes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+
             },
             new String [] {
-                "Orden", "Marca", "Placa", "Tipo Vehiculo", "Piezas", "Estado", "Precio"
+                "Orden", "Marca", "Placa", "Tipo", "Piezas", "Estado", "Precio", "Des.Problema"
             }
         ));
-        jScrollPane1.setViewportView(tblOrdenes);
+        jScrollPane2.setViewportView(tblOrdenes);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -156,108 +188,200 @@ public class Orden_Cliente extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 730, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane2)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(104, 104, 104))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         btncerrarsesion.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         btncerrarsesion.setText("Cerrar Sesion");
         btncerrarsesion.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, null, null, new java.awt.Color(255, 102, 0)));
+        btncerrarsesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btncerrarsesionActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btncerrarsesion, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(17, 17, 17))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(61, 61, 61)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnagregarorden, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btneliminarorden, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(254, Short.MAX_VALUE))))
+                            .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(251, 251, 251)
+                        .addComponent(btncerrarsesion, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(26, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(77, 77, 77)
-                                .addComponent(btnagregarorden, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btneliminarorden, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(22, 22, 22)
-                                .addComponent(btncerrarsesion)))
+                        .addGap(14, 14, 14)
+                        .addComponent(btncerrarsesion)
+                        .addGap(43, 43, 43)
+                        .addComponent(btnagregarorden, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnagregarordenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnagregarordenActionPerformed
-        String tipo = cboxtipo.getSelectedItem().toString();
-        String marca = txtmarca.getText().trim();
-        String placa = txtplaca.getText().trim();
-        String descripcionProblema = txtproblema.getText().trim();
-        
-        if (marca.isEmpty() || placa.isEmpty()) {
+                                                    
+    // Capturar los valores ingresados
+    String tipo = cboxtipo.getSelectedItem().toString();
+    String marca = txtmarca.getText().trim();
+    String placa = txtplaca.getText().trim();
+    String descripcionProblema = txtproblema.getText().trim();
+    
+    // Validar que los campos requeridos no estén vacíos
+    if (marca.isEmpty() || placa.isEmpty() || descripcionProblema.isEmpty()) {
         JOptionPane.showMessageDialog(this, "Por favor complete todos los campos.");
         return;
     }
- 
-    if (tipo.equals("Motocicleta")) {
+
+    // Mostrar un mensaje basado en el tipo de vehículo
+    if (tipo.equals("Moto")) {
         Moto moto = new Moto(tipo, marca, placa);
         JOptionPane.showMessageDialog(this, "Motocicleta agregada:\n" + moto);
     } else if (tipo.equals("Carro")) {
-        Carro carro = new Carro(tipo, marca, placa) {};
+        Carro carro = new Carro(tipo, marca, placa);
         JOptionPane.showMessageDialog(this, "Carro agregado:\n" + carro);
-    } else if (tipo.equals("Camión")) {
+    } else if (tipo.equals("Camion")) {
         Camion camion = new Camion(tipo, marca, placa);
         JOptionPane.showMessageDialog(this, "Camión agregado:\n" + camion);
     } else {
         JOptionPane.showMessageDialog(this, "Tipo de vehículo no reconocido.");
-    }  
-    
+    }
+
+    // Obtener el modelo de la tabla
     DefaultTableModel model = (DefaultTableModel) tblOrdenes.getModel();
-    model.addRow(new Object[]{tipo, marca, placa, descripcionProblema});
     
+     System.out.println("Número de filas: " + model.getRowCount());
+
+    // Generar un número de orden único basado en la cantidad actual de filas
+    int numeroOrden = model.getRowCount() + 1;
+
+    // Datos adicionales para las columnas
+    String piezas = ""; // No se especifica al agregar
+    String estado = "Pendiente"; // Estado inicial
+    double precio = 0.0; // Precio inicial
+
+    // Agregar los datos a la tabla respetando el orden de las columnas
+    model.addRow(new Object[] {
+        numeroOrden,         // Orden
+        marca,               // Marca
+        placa,               // Placa
+        tipo,                // Tipo Vehículo
+        piezas,              // Piezas
+        estado,              // Estado
+        String.format("%.2f", precio), // Precio formateado
+        descripcionProblema  // Des.Problema
+    });
+    
+   // Insertar los datos en la base de datos
+    Conexion conexion = new Conexion();
+    try (Connection conn = conexion.conectar()) {
+        if (conn == null) {
+            JOptionPane.showMessageDialog(this, "Error al conectar con la base de datos.");
+            return;
+        }
+
+        String sql = "INSERT INTO Ordenes_Cliente (Marca, Placa, TipoVehiculo, Piezas, Estado, Precio, DescripcionProblema) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, marca);
+            ps.setString(2, placa);
+            ps.setString(3, tipo);
+            ps.setString(4, piezas);
+            ps.setString(5, estado);
+            ps.setDouble(6, precio);
+            ps.setString(7, descripcionProblema);
+
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(this, "Orden guardada en la base de datos.");
+        }
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(this, "Error al guardar en la base de datos: " + ex.getMessage());
+        ex.printStackTrace();
+    } finally {
+        conexion.desconectar();
+    }
+
+    // Limpiar los campos del formulario
     txtmarca.setText("");
     txtplaca.setText("");
     cboxtipo.setSelectedIndex(0);
     txtproblema.setText("");
-        
-        
-        
+
         
     }//GEN-LAST:event_btnagregarordenActionPerformed
 
     private void txtproblemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtproblemaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtproblemaActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // Verificar si se ha seleccionado una orden en la tabla
+        int selectedRow = tblOrdenes.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione una orden de la tabla para eliminar.");
+            return;
+        }
+
+        // Obtener el número de orden de la fila seleccionada
+        int orden = (int) tblOrdenes.getValueAt(selectedRow, 0);  // Asumiendo que el número de orden está en la primera columna (índice 0)
+
+        // Confirmar la eliminación
+        int valorBtn = JOptionPane.showConfirmDialog(this, "¿Desea eliminar la orden número " + orden + "?", "Eliminar Registro", JOptionPane.OK_CANCEL_OPTION);
+
+        // Si el usuario confirma la eliminación
+        if (valorBtn == 0) {
+            // Llamar al método para eliminar la orden de la base de datos
+            eliminarOrden(orden);
+
+            // Actualizar la tabla después de la eliminación
+            DefaultTableModel model = (DefaultTableModel) tblOrdenes.getModel();
+            model.removeRow(selectedRow);  // Eliminar la fila seleccionada de la tabla
+
+            JOptionPane.showMessageDialog(this, "Orden eliminada exitosamente.");
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btncerrarsesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncerrarsesionActionPerformed
+        int confirm = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea cerrar sesión?", "Confirmar cierre", JOptionPane.YES_NO_OPTION);
+    if (confirm == JOptionPane.YES_OPTION) {
+        this.dispose(); // Cierra la ventana actual
+         // Crear e iniciar la ventana de inicio de sesión (Pagina_Logueo)
+        Pagina_Logueo loginPage = new Pagina_Logueo();
+        loginPage.setVisible(true); // Hacer visible la ventana de inicio de sesión
+    }
+    
+    }//GEN-LAST:event_btncerrarsesionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -295,9 +419,9 @@ public class Orden_Cliente extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnagregarorden;
     private javax.swing.JButton btncerrarsesion;
-    private javax.swing.JButton btneliminarorden;
     private javax.swing.JComboBox<String> cboxtipo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel4;
@@ -305,7 +429,7 @@ public class Orden_Cliente extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tblOrdenes;
     private javax.swing.JTextField txtmarca;
     private javax.swing.JTextField txtplaca;

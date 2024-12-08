@@ -137,8 +137,9 @@ public class OrdenPieza extends Orden {
         modelo.addColumn("Focos");
         modelo.addColumn("Llantas");
         modelo.addColumn("Bateria");
+        modelo.addColumn("Progress");
 
-        String datos[] = new String[10];
+        String datos[] = new String[11];
         try {
             Statement stmt = conexion.conectar().createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM orden_de_piezas");
@@ -154,6 +155,7 @@ public class OrdenPieza extends Orden {
                 datos[7] = String.valueOf(rs.getInt("cantidadFocos"));
                 datos[8] = String.valueOf(rs.getInt("cantidadLlantas"));
                 datos[9] = String.valueOf(rs.getInt("cantidadBateria"));
+                
 
                 modelo.addRow(datos);
             }

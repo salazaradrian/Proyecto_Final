@@ -5,8 +5,14 @@
 package Frames;
 
 import Ordenes.OrdenPieza;
+import Ordenes.ProgressCellRenderer;
 import java.awt.Font;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -19,6 +25,7 @@ public class Piezas extends javax.swing.JFrame {
      * Creates new form Piezas
      */
     private Pagina_Mecanico paginaMecanico;
+    private Map<Integer, Integer> progressMap = new HashMap<>();
 
     public Piezas(Pagina_Mecanico paginaMecanico) {
         this.paginaMecanico = paginaMecanico;
@@ -32,17 +39,56 @@ public class Piezas extends javax.swing.JFrame {
             }
         });
 
+        //TablaPiezas.getColumn("Progress").setCellRenderer(new ProgressCellRenderer());
         TablaPiezas.getTableHeader().setFont(new Font("Verdana", Font.BOLD, 14));
 
         txtID.setEnabled(false);
 
         consultarPiezas();
 
+        TablaPiezas.getColumn("Progress").setCellRenderer(new ProgressCellRenderer());
+
     }
+
+    private ExecutorService executor = Executors.newCachedThreadPool();
+
+    public void trackOrderProgress(int row) {
+        executor.execute(() -> {
+            int progress = 0;
+            while (progress <= 100) {
+                try {
+                    Thread.sleep(100); // Simulate work
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                final int currentProgress = progress;
+                SwingUtilities.invokeLater(() -> {
+                    TablaPiezas.setValueAt(currentProgress, row, TablaPiezas.getColumn("Progress").getModelIndex());
+                });
+                progress += 5;
+            }
+        });
+    }
+    
+    
 
     public void consultarPiezas() {
         DefaultTableModel modelo = OrdenPieza.consultar();
         TablaPiezas.setModel(modelo);
+
+        // Ensure the Progress column has the correct renderer
+        TablaPiezas.getColumn("Progress").setCellRenderer(new ProgressCellRenderer());
+
+        // Re-populate the progress values
+        for (int i = 0; i < TablaPiezas.getRowCount(); i++) {
+            int orderId = Integer.parseInt(TablaPiezas.getValueAt(i, 0).toString());
+            Integer progress = progressMap.get(orderId);
+            if (progress != null) {
+                TablaPiezas.setValueAt(progress, i, TablaPiezas.getColumn("Progress").getModelIndex());
+            } else {
+                TablaPiezas.setValueAt(0, i, TablaPiezas.getColumn("Progress").getModelIndex());
+            }
+        }
     }
 
     private void cerrarVentana() {
@@ -352,10 +398,17 @@ public class Piezas extends javax.swing.JFrame {
 
         orden.agregar();
 
+        // Update the progress map with the new order ID (e.g., generated in the database)
+        int newOrderId = orden.getCodigo(); // Ensure you can retrieve the new order ID
+        progressMap.put(newOrderId, 0); // Initialize progress to 0
+
         consultarPiezas();
 
+        int rowIndex = TablaPiezas.getRowCount() - 1; // Get the last row index (newly added order)
+        trackOrderProgress(rowIndex);
+
         limpiar();
-        
+
         paginaMecanico.consultarInventarioPiezas();
     }//GEN-LAST:event_btnagregarpiezaActionPerformed
 
@@ -381,6 +434,9 @@ public class Piezas extends javax.swing.JFrame {
             orden.editar();
 
             consultarPiezas();
+
+            int rowIndex = TablaPiezas.getRowCount() - 1; // Get last row index
+            trackOrderProgress(rowIndex); // Start progress tracking
 
             limpiar();
 

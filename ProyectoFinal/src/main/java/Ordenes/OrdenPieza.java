@@ -32,12 +32,12 @@ public class OrdenPieza extends Orden {
     protected ArrayList<Piezas> piezas;
 
     public OrdenPieza(int id) {
-        super(Estado.Pendiente, 0.0f);
+        super(Estado.EnProceso, 0.0f);
         this.id = id;
     }
 
     public OrdenPieza(int cantidadMotor, int cantidadChasis, int cantidadFrenos, int cantidadCaja, int cantidadFocos, int cantidadLlantas, int cantidadBateria, float precio) {
-        super(Estado.Pendiente, 0.0f);
+        super(Estado.EnProceso, 0.0f);
         this.cantidadMotor = cantidadMotor;
         this.cantidadChasis = cantidadChasis;
         this.cantidadFrenos = cantidadFrenos;
@@ -45,10 +45,16 @@ public class OrdenPieza extends Orden {
         this.cantidadFocos = cantidadFocos;
         this.cantidadLlantas = cantidadLlantas;
         this.cantidadBateria = cantidadBateria;
+        this.precio = calcularPrecio();
+        
+        
+        
+        
+        
     }
 
     public OrdenPieza(int id, int cantidadMotor, int cantidadChasis, int cantidadFrenos, int cantidadCaja, int cantidadFocos, int cantidadLlantas, int cantidadBateria, float precio) {
-        super(Estado.Pendiente, 0.0f);
+        super(Estado.EnProceso, 0.0f);
         this.cantidadMotor = cantidadMotor;
         this.cantidadChasis = cantidadChasis;
         this.cantidadFrenos = cantidadFrenos;
@@ -57,9 +63,29 @@ public class OrdenPieza extends Orden {
         this.cantidadLlantas = cantidadLlantas;
         this.cantidadBateria = cantidadBateria;
         this.id = id;
+        this.precio = calcularPrecio();
     }
-
     
+    private float calcularPrecio() {
+        
+        float precioMotor = 100.0f; 
+        float precioChasis = 150.0f;
+        float precioFrenos = 50.0f;
+        float precioCaja = 80.0f;
+        float precioFocos = 30.0f;
+        float precioLlantas = 60.0f;
+        float precioBateria = 40.0f;
+
+        return (cantidadMotor * precioMotor) +
+               (cantidadChasis * precioChasis) +
+               (cantidadFrenos * precioFrenos) +
+               (cantidadCaja * precioCaja) +
+               (cantidadFocos * precioFocos) +
+               (cantidadLlantas * precioLlantas) +
+               (cantidadBateria * precioBateria);
+    }
+    
+
     public void agregar() {
         Conexion conexion = new Conexion();
 
@@ -82,6 +108,7 @@ public class OrdenPieza extends Orden {
             cs.execute();
 
             JOptionPane.showMessageDialog(null, "El registro se ha guardado de manera exitosa");
+            actualizarInventario();
 
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al agregar el registro");
@@ -91,7 +118,6 @@ public class OrdenPieza extends Orden {
         }
     }
 
-    
     public static DefaultTableModel consultar() {
         Conexion conexion = new Conexion();
         DefaultTableModel modelo = new DefaultTableModel() {
@@ -142,7 +168,6 @@ public class OrdenPieza extends Orden {
         return modelo;
     }
 
-    
     public void editar() {
         Conexion conexion = new Conexion();
 
@@ -189,7 +214,6 @@ public class OrdenPieza extends Orden {
         }
     }
 
-    
     public void eliminar() {
         Conexion conexion = new Conexion();
 
@@ -210,6 +234,108 @@ public class OrdenPieza extends Orden {
             conexion.desconectar();
         }
     }
+
+    public void actualizarInventario() {
+        Conexion conexion = new Conexion();
+
+        try {
+            String sqlSelect = "SELECT totalMotor, totalChasis, totalFrenos, totalCaja, totalFocos, totalLlantas, totalBateria "
+                    + "FROM inventario_piezas WHERE id = 1"; // Assuming a single row for inventory
+            PreparedStatement psSelect = conexion.conectar().prepareStatement(sqlSelect);
+            ResultSet rs = psSelect.executeQuery();
+
+            if (rs.next()) {
+
+                int currentMotor = rs.getInt("totalMotor");
+                int currentChasis = rs.getInt("totalChasis");
+                int currentFrenos = rs.getInt("totalFrenos");
+                int currentCaja = rs.getInt("totalCaja");
+                int currentFocos = rs.getInt("totalFocos");
+                int currentLlantas = rs.getInt("totalLlantas");
+                int currentBateria = rs.getInt("totalBateria");
+
+                int updatedMotor = currentMotor + this.cantidadMotor;
+                int updatedChasis = currentChasis + this.cantidadChasis;
+                int updatedFrenos = currentFrenos + this.cantidadFrenos;
+                int updatedCaja = currentCaja + this.cantidadCaja;
+                int updatedFocos = currentFocos + this.cantidadFocos;
+                int updatedLlantas = currentLlantas + this.cantidadLlantas;
+                int updatedBateria = currentBateria + this.cantidadBateria;
+
+                String sqlUpdate = "UPDATE inventario_piezas SET totalMotor = ?, totalChasis = ?, totalFrenos = ?, "
+                        + "totalCaja = ?, totalFocos = ?, totalLlantas = ?, totalBateria = ? WHERE id = 1";
+
+                PreparedStatement psUpdate = conexion.conectar().prepareStatement(sqlUpdate);
+
+                psUpdate.setInt(1, updatedMotor);
+                psUpdate.setInt(2, updatedChasis);
+                psUpdate.setInt(3, updatedFrenos);
+                psUpdate.setInt(4, updatedCaja);
+                psUpdate.setInt(5, updatedFocos);
+                psUpdate.setInt(6, updatedLlantas);
+                psUpdate.setInt(7, updatedBateria);
+
+                int rowsAffected = psUpdate.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Inventario actualizado correctamente.");
+
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al editar el registro");
+            System.out.println("Error Consulta: " + ex.toString());
+        } finally {
+            conexion.desconectar();
+        }
+    }
+    
+    
+    public static DefaultTableModel consultarInventario() {
+        Conexion conexion = new Conexion();
+        DefaultTableModel modelo = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        modelo.addColumn("Motor");
+        modelo.addColumn("Chasis");
+        modelo.addColumn("Frenos");
+        modelo.addColumn("Caja");
+        modelo.addColumn("Focos");
+        modelo.addColumn("Llantas");
+        modelo.addColumn("Bateria");
+
+        String datos[] = new String[7];
+        try {
+            Statement stmt = conexion.conectar().createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM inventario_piezas");
+
+            while (rs.next()) {
+                datos[0] = String.valueOf(rs.getInt("totalMotor"));
+                datos[1] = String.valueOf(rs.getInt("totalChasis"));
+                datos[2] = String.valueOf(rs.getInt("totalFrenos"));
+                datos[3] = String.valueOf(rs.getInt("totalCaja"));
+                datos[4] = String.valueOf(rs.getInt("totalFocos"));
+                datos[5] = String.valueOf(rs.getInt("totalLlantas"));
+                datos[6] = String.valueOf(rs.getInt("totalBateria"));
+
+                modelo.addRow(datos);
+            }
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al consultar los registros");
+            System.out.println("Error Consulta: " + ex.toString());
+        } finally {
+            conexion.desconectar();
+        }
+
+        return modelo;
+    }
+    
+    
+    
+    
+    
 
     public int getCodigo() {
         return id;

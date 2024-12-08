@@ -91,7 +91,7 @@
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder justification="2" title="  Ordenes de Piezas  ">
+            <TitledBorder justification="2" title="Ordenar Piezas">
               <Border PropertyName="innerBorder" info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                 <LineBorder thickness="2"/>
               </Border>
@@ -389,7 +389,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Arrancador:"/>
+            <Property name="text" type="java.lang.String" value="Focos"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JComboBox" name="arrancadorcbox">
@@ -419,7 +419,7 @@
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder justification="2" title="  Inventario de Piezas  ">
+            <TitledBorder justification="2" title="Ordenes de Piezas">
               <Border PropertyName="innerBorder" info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                 <LineBorder thickness="2">
                   <Color PropertyName="color" blue="ff" green="0" red="0" type="rgb"/>

@@ -18,8 +18,19 @@ public class Piezas extends javax.swing.JFrame {
     /**
      * Creates new form Piezas
      */
-    public Piezas() {
+    private Pagina_Mecanico paginaMecanico;
+
+    public Piezas(Pagina_Mecanico paginaMecanico) {
+        this.paginaMecanico = paginaMecanico;
         initComponents();
+
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE); // Handle close operation manually
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                cerrarVentana();
+            }
+        });
 
         TablaPiezas.getTableHeader().setFont(new Font("Verdana", Font.BOLD, 14));
 
@@ -32,6 +43,16 @@ public class Piezas extends javax.swing.JFrame {
     public void consultarPiezas() {
         DefaultTableModel modelo = OrdenPieza.consultar();
         TablaPiezas.setModel(modelo);
+    }
+
+    private void cerrarVentana() {
+        // Hide the current JFrame
+        this.dispose();
+
+        // Show the Pagina_Mecanico JFrame
+        if (paginaMecanico != null) {
+            paginaMecanico.setVisible(true);
+        }
     }
 
     public void limpiar() {
@@ -85,7 +106,7 @@ public class Piezas extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2), "  Ordenes de Piezas  ", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 3, 14))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2), "Ordenar Piezas", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 3, 14))); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setText("ID:");
@@ -121,7 +142,7 @@ public class Piezas extends javax.swing.JFrame {
         bateriacbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel11.setText("Arrancador:");
+        jLabel11.setText("Focos");
 
         arrancadorcbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
 
@@ -203,7 +224,7 @@ public class Piezas extends javax.swing.JFrame {
                 .addGap(41, 41, 41))
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 255), 2), "  Inventario de Piezas  ", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 3, 14))); // NOI18N
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 255), 2), "Ordenes de Piezas", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 3, 14))); // NOI18N
 
         TablaPiezas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -323,7 +344,7 @@ public class Piezas extends javax.swing.JFrame {
         int cantidadChasis = Integer.parseInt((String) chasiscbox.getSelectedItem());
         int cantidadFrenos = Integer.parseInt((String) frenoscbox.getSelectedItem());
         int cantidadCaja = Integer.parseInt((String) cajacbox.getSelectedItem());
-        int cantidadFocos = Integer.parseInt((String) llantascbox.getSelectedItem());
+        int cantidadFocos = Integer.parseInt((String) arrancadorcbox.getSelectedItem());
         int cantidadLlantas = Integer.parseInt((String) llantascbox.getSelectedItem());
         int cantidadBateria = Integer.parseInt((String) bateriacbox.getSelectedItem());
 
@@ -334,6 +355,8 @@ public class Piezas extends javax.swing.JFrame {
         consultarPiezas();
 
         limpiar();
+        
+        paginaMecanico.consultarInventarioPiezas();
     }//GEN-LAST:event_btnagregarpiezaActionPerformed
 
     private void btnactualizarpiezaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnactualizarpiezaActionPerformed
@@ -445,7 +468,9 @@ public class Piezas extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Piezas().setVisible(true);
+                Pagina_Mecanico paginaMecanico = new Pagina_Mecanico(); // Create Pagina_Mecanico instance
+                Piezas piezas = new Piezas(paginaMecanico);            // Pass it to Piezas
+                piezas.setVisible(true);
             }
         });
     }

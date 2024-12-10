@@ -4,6 +4,17 @@
  */
 package Frames;
 
+import Ordenes.OrdenPieza;
+import Ordenes.ProgressCellRenderer;
+import java.awt.Font;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Adrian Salazar R
@@ -13,8 +24,92 @@ public class Piezas extends javax.swing.JFrame {
     /**
      * Creates new form Piezas
      */
-    public Piezas() {
+    private Pagina_Mecanico paginaMecanico;
+    private Map<Integer, Integer> progressMap = new HashMap<>();
+
+    public Piezas(Pagina_Mecanico paginaMecanico) {
+        this.paginaMecanico = paginaMecanico;
         initComponents();
+
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE); // Handle close operation manually
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                cerrarVentana();
+            }
+        });
+
+        //TablaPiezas.getColumn("Progress").setCellRenderer(new ProgressCellRenderer());
+        TablaPiezas.getTableHeader().setFont(new Font("Verdana", Font.BOLD, 14));
+
+        txtID.setEnabled(false);
+
+        consultarPiezas();
+
+        TablaPiezas.getColumn("Progress").setCellRenderer(new ProgressCellRenderer());
+
+    }
+
+    private ExecutorService executor = Executors.newCachedThreadPool();
+
+    public void trackOrderProgress(int row) {
+        executor.execute(() -> {
+            int progress = 0;
+            while (progress <= 100) {
+                try {
+                    Thread.sleep(100); // Simulate work
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                final int currentProgress = progress;
+                SwingUtilities.invokeLater(() -> {
+                    TablaPiezas.setValueAt(currentProgress, row, TablaPiezas.getColumn("Progress").getModelIndex());
+                });
+                progress += 5;
+            }
+        });
+    }
+    
+    
+
+    public void consultarPiezas() {
+        DefaultTableModel modelo = OrdenPieza.consultar();
+        TablaPiezas.setModel(modelo);
+
+        // Ensure the Progress column has the correct renderer
+        TablaPiezas.getColumn("Progress").setCellRenderer(new ProgressCellRenderer());
+
+        // Re-populate the progress values
+        for (int i = 0; i < TablaPiezas.getRowCount(); i++) {
+            int orderId = Integer.parseInt(TablaPiezas.getValueAt(i, 0).toString());
+            Integer progress = progressMap.get(orderId);
+            if (progress != null) {
+                TablaPiezas.setValueAt(progress, i, TablaPiezas.getColumn("Progress").getModelIndex());
+            } else {
+                TablaPiezas.setValueAt(0, i, TablaPiezas.getColumn("Progress").getModelIndex());
+            }
+        }
+    }
+
+    private void cerrarVentana() {
+        // Hide the current JFrame
+        this.dispose();
+
+        // Show the Pagina_Mecanico JFrame
+        if (paginaMecanico != null) {
+            paginaMecanico.setVisible(true);
+        }
+    }
+
+    public void limpiar() {
+        txtID.setText("");
+        motorcbox.setSelectedIndex(1);
+        arrancadorcbox.setSelectedIndex(1);
+        bateriacbox.setSelectedIndex(1);
+        cajacbox.setSelectedIndex(1);
+        chasiscbox.setSelectedIndex(1);
+        frenoscbox.setSelectedIndex(1);
+        llantascbox.setSelectedIndex(1);
     }
 
     /**
@@ -30,23 +125,23 @@ public class Piezas extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        txtID = new javax.swing.JTextField();
+        motorcbox = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        frenoscbox = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jComboBox4 = new javax.swing.JComboBox<>();
-        jComboBox5 = new javax.swing.JComboBox<>();
+        chasiscbox = new javax.swing.JComboBox<>();
+        cajacbox = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
-        jComboBox6 = new javax.swing.JComboBox<>();
+        llantascbox = new javax.swing.JComboBox<>();
         jLabel10 = new javax.swing.JLabel();
-        jComboBox7 = new javax.swing.JComboBox<>();
+        bateriacbox = new javax.swing.JComboBox<>();
         jLabel11 = new javax.swing.JLabel();
-        jComboBox8 = new javax.swing.JComboBox<>();
+        arrancadorcbox = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        TablaPiezas = new javax.swing.JTable();
         btnactualizarpieza = new javax.swing.JButton();
         btnagregarpieza = new javax.swing.JButton();
         btneliminarpieza = new javax.swing.JButton();
@@ -57,7 +152,7 @@ public class Piezas extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2), "  Ordenes de Piezas  ", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 3, 14))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2), "Ordenar Piezas", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 3, 14))); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setText("ID:");
@@ -65,12 +160,12 @@ public class Piezas extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setText("Motor:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
+        motorcbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel6.setText("Frenos:");
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
+        frenoscbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel7.setText("Chasis:");
@@ -78,24 +173,24 @@ public class Piezas extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel8.setText("Caja:");
 
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
+        chasiscbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
 
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
+        cajacbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel9.setText("Llantas:");
 
-        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
+        llantascbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel10.setText("Bateria:");
 
-        jComboBox7.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
+        bateriacbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel11.setText("Arrancador:");
+        jLabel11.setText("Focos");
 
-        jComboBox8.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
+        arrancadorcbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -107,42 +202,42 @@ public class Piezas extends javax.swing.JFrame {
                         .addGap(26, 26, 26)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(17, 17, 17)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jComboBox8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(arrancadorcbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(motorcbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(frenoscbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
                                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(cajacbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(chasiscbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(llantascbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jComboBox7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                                        .addComponent(bateriacbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
                 .addContainerGap(30, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -151,33 +246,33 @@ public class Piezas extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(motorcbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7)
-                    .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(chasiscbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9)
-                    .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(llantascbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(frenoscbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8)
-                    .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cajacbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10)
-                    .addComponent(jComboBox7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(bateriacbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(jComboBox8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(arrancadorcbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(41, 41, 41))
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 255), 2), "  Inventario de Piezas  ", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 3, 14))); // NOI18N
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 255), 2), "Ordenes de Piezas", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 3, 14))); // NOI18N
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        TablaPiezas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -188,16 +283,21 @@ public class Piezas extends javax.swing.JFrame {
                 "Nombre", "ID", "Estado", "Cantidad"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        TablaPiezas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TablaPiezasMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(TablaPiezas);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 621, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(32, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -228,6 +328,11 @@ public class Piezas extends javax.swing.JFrame {
         btneliminarpieza.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btneliminarpieza.setText("Eliminar Orden");
         btneliminarpieza.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, null, null, new java.awt.Color(0, 51, 255)));
+        btneliminarpieza.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btneliminarpiezaActionPerformed(evt);
+            }
+        });
 
         jButton4.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         jButton4.setText("Cerrar Sesion");
@@ -241,8 +346,8 @@ public class Piezas extends javax.swing.JFrame {
                 .addGap(16, 16, 16)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(19, Short.MAX_VALUE))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -256,7 +361,7 @@ public class Piezas extends javax.swing.JFrame {
                                     .addComponent(btnactualizarpieza, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btnagregarpieza, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btneliminarpieza, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE))))))
+                                .addGap(0, 174, Short.MAX_VALUE))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -281,12 +386,113 @@ public class Piezas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnagregarpiezaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnagregarpiezaActionPerformed
-        // TODO add your handling code here:
+        int cantidadMotor = Integer.parseInt((String) motorcbox.getSelectedItem());
+        int cantidadChasis = Integer.parseInt((String) chasiscbox.getSelectedItem());
+        int cantidadFrenos = Integer.parseInt((String) frenoscbox.getSelectedItem());
+        int cantidadCaja = Integer.parseInt((String) cajacbox.getSelectedItem());
+        int cantidadFocos = Integer.parseInt((String) arrancadorcbox.getSelectedItem());
+        int cantidadLlantas = Integer.parseInt((String) llantascbox.getSelectedItem());
+        int cantidadBateria = Integer.parseInt((String) bateriacbox.getSelectedItem());
+
+        OrdenPieza orden = new OrdenPieza(cantidadMotor, cantidadChasis, cantidadFrenos, cantidadCaja, cantidadFocos, cantidadLlantas, cantidadBateria, 0.0f);
+
+        orden.agregar();
+
+        // Update the progress map with the new order ID (e.g., generated in the database)
+        int newOrderId = orden.getCodigo(); // Ensure you can retrieve the new order ID
+        progressMap.put(newOrderId, 0); // Initialize progress to 0
+
+        consultarPiezas();
+
+        int rowIndex = TablaPiezas.getRowCount() - 1; // Get the last row index (newly added order)
+        trackOrderProgress(rowIndex);
+
+        limpiar();
+
+        paginaMecanico.consultarInventarioPiezas();
     }//GEN-LAST:event_btnagregarpiezaActionPerformed
 
     private void btnactualizarpiezaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnactualizarpiezaActionPerformed
-        // TODO add your handling code here:
+        if (txtID.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Seleccione una fila para actualizar.");
+            return;
+        }
+
+        try {
+
+            int id = Integer.parseInt(txtID.getText());
+            int cantidadMotor = Integer.parseInt((String) motorcbox.getSelectedItem());
+            int cantidadChasis = Integer.parseInt((String) chasiscbox.getSelectedItem());
+            int cantidadFrenos = Integer.parseInt((String) frenoscbox.getSelectedItem());
+            int cantidadCaja = Integer.parseInt((String) cajacbox.getSelectedItem());
+            int cantidadFocos = Integer.parseInt((String) llantascbox.getSelectedItem());
+            int cantidadLlantas = Integer.parseInt((String) llantascbox.getSelectedItem());
+            int cantidadBateria = Integer.parseInt((String) bateriacbox.getSelectedItem());
+
+            OrdenPieza orden = new OrdenPieza(id, cantidadMotor, cantidadChasis, cantidadFrenos, cantidadCaja, cantidadFocos, cantidadLlantas, cantidadBateria, 0.0f);
+
+            orden.editar();
+
+            consultarPiezas();
+
+            int rowIndex = TablaPiezas.getRowCount() - 1; // Get last row index
+            trackOrderProgress(rowIndex); // Start progress tracking
+
+            limpiar();
+
+            JOptionPane.showMessageDialog(this, "Orden actualizada con éxito.");
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Error al actualizar: datos inválidos.");
+        }
     }//GEN-LAST:event_btnactualizarpiezaActionPerformed
+
+    private void btneliminarpiezaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarpiezaActionPerformed
+        if (txtID.getText() == null || txtID.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione una orden de la tabla para eliminar los datos.");
+            return;
+        }
+
+        int valorBtn = JOptionPane.showConfirmDialog(
+                this,
+                "¿Desea eliminar la orden con ID: " + txtID.getText() + "?",
+                "Eliminar Registro",
+                JOptionPane.OK_CANCEL_OPTION
+        );
+
+        if (valorBtn == JOptionPane.OK_OPTION) {
+            try {
+
+                int id = Integer.parseInt(txtID.getText());
+                OrdenPieza orden = new OrdenPieza(id);
+
+                orden.eliminar();
+
+                consultarPiezas();
+
+                limpiar();
+
+                JOptionPane.showMessageDialog(this, "La orden se eliminó correctamente.");
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Error: El ID no es válido.");
+            }
+        }
+    }//GEN-LAST:event_btneliminarpiezaActionPerformed
+
+    private void TablaPiezasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaPiezasMouseClicked
+        int selectedRow = TablaPiezas.getSelectedRow();
+
+        if (selectedRow != -1) {
+
+            txtID.setText(TablaPiezas.getValueAt(selectedRow, 0).toString()); // Set ID field
+            motorcbox.setSelectedItem(TablaPiezas.getValueAt(selectedRow, 3).toString()); // Motor quantity
+            chasiscbox.setSelectedItem(TablaPiezas.getValueAt(selectedRow, 4).toString()); // Chasis quantity
+            frenoscbox.setSelectedItem(TablaPiezas.getValueAt(selectedRow, 5).toString()); // Frenos quantity
+            cajacbox.setSelectedItem(TablaPiezas.getValueAt(selectedRow, 6).toString()); // Caja quantity
+            llantascbox.setSelectedItem(TablaPiezas.getValueAt(selectedRow, 7).toString()); // Llantas quantity
+            bateriacbox.setSelectedItem(TablaPiezas.getValueAt(selectedRow, 8).toString()); // Bateria quantity
+            arrancadorcbox.setSelectedItem(TablaPiezas.getValueAt(selectedRow, 9).toString()); // Focos/Arrancador quantity
+        }
+    }//GEN-LAST:event_TablaPiezasMouseClicked
 
     /**
      * @param args the command line arguments
@@ -318,23 +524,24 @@ public class Piezas extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Piezas().setVisible(true);
+                Pagina_Mecanico paginaMecanico = new Pagina_Mecanico(); // Create Pagina_Mecanico instance
+                Piezas piezas = new Piezas(paginaMecanico);            // Pass it to Piezas
+                piezas.setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable TablaPiezas;
+    private javax.swing.JComboBox<String> arrancadorcbox;
+    private javax.swing.JComboBox<String> bateriacbox;
     private javax.swing.JButton btnactualizarpieza;
     private javax.swing.JButton btnagregarpieza;
     private javax.swing.JButton btneliminarpieza;
+    private javax.swing.JComboBox<String> cajacbox;
+    private javax.swing.JComboBox<String> chasiscbox;
+    private javax.swing.JComboBox<String> frenoscbox;
     private javax.swing.JButton jButton4;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox3;
-    private javax.swing.JComboBox<String> jComboBox4;
-    private javax.swing.JComboBox<String> jComboBox5;
-    private javax.swing.JComboBox<String> jComboBox6;
-    private javax.swing.JComboBox<String> jComboBox7;
-    private javax.swing.JComboBox<String> jComboBox8;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
@@ -347,7 +554,8 @@ public class Piezas extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JComboBox<String> llantascbox;
+    private javax.swing.JComboBox<String> motorcbox;
+    private javax.swing.JTextField txtID;
     // End of variables declaration//GEN-END:variables
 }

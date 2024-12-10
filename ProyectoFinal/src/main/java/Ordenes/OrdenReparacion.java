@@ -14,8 +14,9 @@ public class OrdenReparacion extends Orden{
     
     protected ArrayList<Piezas> piezas;
     protected Vehiculo vehiculo;
+    protected String descripcion_problema;
 
-    public OrdenReparacion(Vehiculo vehiculo) {
+    public OrdenReparacion(Vehiculo vehiculo, String descripcion_problema) {
         super(Estado.Pendiente, 0.0f); 
         this.piezas = new ArrayList<>();
         this.vehiculo = vehiculo;

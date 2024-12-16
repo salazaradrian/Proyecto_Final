@@ -202,6 +202,8 @@ public class Registro extends JFrame {
                 }
             };
             usuario.agregar();
+            new Pagina_Logueo().setVisible(true);
+            setVisible(false);
 
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(null, "Los datos ingresados deben ser de tipo texto");

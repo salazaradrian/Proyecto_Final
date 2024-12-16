@@ -17,11 +17,14 @@ import javax.swing.JOptionPane;
  */
 public class Pagina_Logueo extends javax.swing.JFrame {
 
+    protected static String usuario;
+
     /**
      * Creates new form PaginaInicio
      */
     public Pagina_Logueo() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -42,6 +45,7 @@ public class Pagina_Logueo extends javax.swing.JFrame {
         txtuser = new javax.swing.JTextField();
         txtpassword = new javax.swing.JTextField();
         btningresar = new javax.swing.JButton();
+        BtnRegistrarse = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
 
@@ -71,6 +75,13 @@ public class Pagina_Logueo extends javax.swing.JFrame {
             }
         });
 
+        BtnRegistrarse.setText("Registrarse");
+        BtnRegistrarse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnRegistrarseActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -91,6 +102,8 @@ public class Pagina_Logueo extends javax.swing.JFrame {
                 .addContainerGap(83, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(BtnRegistrarse)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btningresar, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20))
         );
@@ -99,14 +112,16 @@ public class Pagina_Logueo extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(39, 39, 39)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtuser))
                 .addGap(35, 35, 35)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtpassword, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btningresar)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btningresar)
+                    .addComponent(BtnRegistrarse))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
@@ -160,12 +175,14 @@ public class Pagina_Logueo extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btningresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btningresarActionPerformed
-        // Retrieve username and password from text fields
-        String username = txtuser.getText();
-        String password = txtpassword.getText();
 
-        if (username.isEmpty() || password.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please enter username and password");
+        // Recuperar nombre de usuario y contraseña de los campos de texto
+        usuario = txtuser.getText().trim();
+        String contrasena = txtpassword.getText().trim();
+
+        // Validar que los campos no estén vacíos
+        if (usuario.isEmpty() || contrasena.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingrese su usuario y contraseña");
             return;
         }
 
@@ -173,45 +190,55 @@ public class Pagina_Logueo extends javax.swing.JFrame {
         Connection con = conexion.conectar();
 
         if (con == null) {
-            JOptionPane.showMessageDialog(this, "Database connection failed");
+            JOptionPane.showMessageDialog(this, "Error al conectarse con la base de datos");
             return;
         }
 
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
         try {
+            String query = "SELECT rol FROM Usuario WHERE usuario = ? AND contrasena = ?";
+            ps = con.prepareStatement(query);
+            ps.setString(1, usuario);
+            ps.setString(2, contrasena);
 
-            String query = "SELECT r.tipoRol FROM Usuario u "
-                    + "JOIN Rol r ON u.idRol = r.idRol "
-                    + "WHERE u.usuario = ? AND u.contrasena = ?";
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setString(1, username);
-            ps.setString(2, password);
+            rs = ps.executeQuery();
 
-            ResultSet rs = ps.executeQuery();
-
+            // Verificar si hay un resultado
             if (rs.next()) {
+                String role = rs.getString("rol");
 
-                String role = rs.getString("tipoRol");
-
-                if (role.equals("Mecanico")) {
-                    new Pagina_Mecanico().setVisible(true);
-                } else if (role.equals("UsuarioGeneral")) {
-                    new Orden_Cliente().setVisible(true);
-                } else {
-                    JOptionPane.showMessageDialog(this, "Role not recognized");
+                switch (role) {
+                    case "Mecanico":
+                        new Pagina_Mecanico().setVisible(true);
+                        setLocationRelativeTo(null);
+                        break;
+                    case "UsuarioGeneral":
+                        new Orden_Cliente().setVisible(true);
+                        setLocationRelativeTo(null);
+                        break;
+                    default:
+                        JOptionPane.showMessageDialog(this, "Rol no reconocido");
+                        break;
                 }
 
                 this.dispose();
-            } else {
-                JOptionPane.showMessageDialog(this, "Invalid username or password");
-            }
 
-            rs.close();
-            ps.close();
-            conexion.desconectar();
+            } else {
+                JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos");
+            }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
         }
     }//GEN-LAST:event_btningresarActionPerformed
+
+    private void BtnRegistrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnRegistrarseActionPerformed
+        Registro rg = new Registro(this);
+        rg.setLocationRelativeTo(null);
+        rg.setVisible(true);
+        setVisible(false);
+    }//GEN-LAST:event_BtnRegistrarseActionPerformed
 
     /**
      * @param args the command line arguments
@@ -252,6 +279,7 @@ public class Pagina_Logueo extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BtnRegistrarse;
     private javax.swing.JButton btningresar;
     private javax.swing.JEditorPane jEditorPane1;
     private javax.swing.JLabel jLabel1;

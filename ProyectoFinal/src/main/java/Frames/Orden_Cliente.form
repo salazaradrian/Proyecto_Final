@@ -38,7 +38,7 @@
                       <EmptySpace min="-2" pref="163" max="-2" attributes="0"/>
                       <Component id="BtnEditarPerfil" min="-2" pref="82" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btncerrarsesion" min="-2" pref="82" max="-2" attributes="0"/>
+                      <Component id="BtnCerrarSesion" min="-2" pref="82" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace pref="26" max="32767" attributes="0"/>
@@ -57,7 +57,7 @@
                   <Group type="102" attributes="0">
                       <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="btncerrarsesion" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="BtnCerrarSesion" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="BtnEditarPerfil" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
@@ -359,7 +359,7 @@
         </Container>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="btncerrarsesion">
+    <Component class="javax.swing.JButton" name="BtnCerrarSesion">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI" size="12" style="2"/>
@@ -374,7 +374,7 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btncerrarsesionActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnCerrarSesionActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="BtnEditarPerfil">

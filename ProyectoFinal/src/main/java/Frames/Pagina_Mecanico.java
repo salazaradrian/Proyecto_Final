@@ -12,6 +12,7 @@ import Ordenes.OrdenReparacion;
 import Vehiculos.Tipo;
 import javax.swing.JOptionPane;
 import Ordenes.Estado;
+import java.awt.event.ActionEvent;
 
 /**
  *
@@ -501,6 +502,26 @@ public class Pagina_Mecanico extends javax.swing.JFrame {
 
     }//GEN-LAST:event_tblordenesMouseClicked
 
+    private void BtnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCerrarSesionActionPerformed
+           int confirm = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea cerrar sesión?", "Confirmar cierre", JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.YES_OPTION) {
+            this.dispose(); // Cierra la ventana actual
+            // Crear e iniciar la ventana de inicio de sesión (Pagina_Logueo)
+            Pagina_Logueo loginPage = new Pagina_Logueo();
+            loginPage.setVisible(true); // Hacer visible la ventana de inicio de sesión
+        }
+    }//GEN-LAST:event_BtnCerrarSesionActionPerformed
+
+    private void BtnEditarPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEditarPerfilActionPerformed
+              int confirm = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea Editar el Perfil ", "Confirmar cierre", JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.YES_OPTION) {
+            this.dispose(); // Cierra la ventana actual
+            // Crear e iniciar la ventana de inicio de sesión (Pagina_Logueo)
+            VisualizarPerfil editperfil = new VisualizarPerfil();
+            editperfil.setVisible(true); // Hacer visible la ventana de inicio de sesión
+        }
+    }//GEN-LAST:event_BtnEditarPerfilActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -551,7 +572,6 @@ public class Pagina_Mecanico extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cboxfrenos;
     private javax.swing.JComboBox<String> cboxllantas;
     private javax.swing.JComboBox<String> cboxmotor;
-    private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JComboBox<String> jComboBox4;

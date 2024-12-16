@@ -17,7 +17,7 @@ public class Conexion {
         this.url = "jdbc:mysql://localhost:3306/";
         this.db = "Proyecto_SGV";
         this.user = "root"; //////cambiar usuario
-        this.password = "12345678"; /////////cambiar password
+        this.password = "abc123"; /////////cambiar password
         this.driver = "com.mysql.cj.jdbc.Driver";
     }
 

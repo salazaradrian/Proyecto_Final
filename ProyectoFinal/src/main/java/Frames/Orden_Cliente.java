@@ -6,9 +6,6 @@ package Frames;
 
 import Database.Conexion;
 import Frames.Pagina_Logueo;
-import Vehiculos.Carro;
-import Vehiculos.Camion;
-import Vehiculos.Moto;
 import Vehiculos.Vehiculo;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

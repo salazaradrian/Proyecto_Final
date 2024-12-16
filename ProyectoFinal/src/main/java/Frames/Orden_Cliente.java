@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import Ordenes.OrdenReparacion;
 import Vehiculos.Tipo;
+import java.awt.event.ActionEvent;
 
 /**
  *
@@ -83,7 +84,7 @@ public class Orden_Cliente extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblOrdenes = new javax.swing.JTable();
-        btncerrarsesion = new javax.swing.JButton();
+        BtnCerrarSesion = new javax.swing.JButton();
         BtnEditarPerfil = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -236,12 +237,12 @@ public class Orden_Cliente extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        btncerrarsesion.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
-        btncerrarsesion.setText("Cerrar Sesion");
-        btncerrarsesion.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, null, null, new java.awt.Color(255, 102, 0)));
-        btncerrarsesion.addActionListener(new java.awt.event.ActionListener() {
+        BtnCerrarSesion.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        BtnCerrarSesion.setText("Cerrar Sesion");
+        BtnCerrarSesion.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, null, null, new java.awt.Color(255, 102, 0)));
+        BtnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btncerrarsesionActionPerformed(evt);
+                BtnCerrarSesionActionPerformed(evt);
             }
         });
 
@@ -271,7 +272,7 @@ public class Orden_Cliente extends javax.swing.JFrame {
                         .addGap(163, 163, 163)
                         .addComponent(BtnEditarPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btncerrarsesion, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(BtnCerrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(26, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
@@ -285,7 +286,7 @@ public class Orden_Cliente extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(14, 14, 14)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btncerrarsesion)
+                            .addComponent(BtnCerrarSesion)
                             .addComponent(BtnEditarPerfil))
                         .addGap(43, 43, 43)
                         .addComponent(btnagregarorden, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -345,7 +346,7 @@ public class Orden_Cliente extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
-    private void btncerrarsesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncerrarsesionActionPerformed
+    private void BtnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCerrarSesionActionPerformed
         int confirm = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea cerrar sesión?", "Confirmar cierre", JOptionPane.YES_NO_OPTION);
         if (confirm == JOptionPane.YES_OPTION) {
             this.dispose(); // Cierra la ventana actual
@@ -354,7 +355,7 @@ public class Orden_Cliente extends javax.swing.JFrame {
             loginPage.setVisible(true); // Hacer visible la ventana de inicio de sesión
         }
 
-    }//GEN-LAST:event_btncerrarsesionActionPerformed
+    }//GEN-LAST:event_BtnCerrarSesionActionPerformed
 
     private void tblOrdenesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblOrdenesMouseClicked
         // TODO add your handling code here:int fila = artistastable.getSelectedRow();
@@ -368,14 +369,16 @@ public class Orden_Cliente extends javax.swing.JFrame {
         txtproblema.setText(tblOrdenes.getValueAt(fila, 3).toString());
     }//GEN-LAST:event_tblOrdenesMouseClicked
 
-    
-    private void BtnEditarPerfilActionPerformed(java.awt.event.ActionEvent evt) {
-        // Your code here
-    }
-    
-    
-    
-    
+    private void BtnEditarPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEditarPerfilActionPerformed
+                 int confirm = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea Editar el Perfil ", "Confirmar cierre", JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.YES_OPTION) {
+            this.dispose(); // Cierra la ventana actual
+            // Crear e iniciar la ventana de inicio de sesión (Pagina_Logueo)
+            VisualizarPerfil editperfil = new VisualizarPerfil();
+            editperfil.setVisible(true); // Hacer visible la ventana de inicio de sesión
+        }
+    }//GEN-LAST:event_BtnEditarPerfilActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -412,10 +415,10 @@ public class Orden_Cliente extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BtnCerrarSesion;
     private javax.swing.JButton BtnEditarPerfil;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnagregarorden;
-    private javax.swing.JButton btncerrarsesion;
     private javax.swing.JComboBox cboxtipo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel4;

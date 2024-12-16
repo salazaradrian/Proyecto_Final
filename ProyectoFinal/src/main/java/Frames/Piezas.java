@@ -145,7 +145,7 @@ public class Piezas extends javax.swing.JFrame {
         btnactualizarpieza = new javax.swing.JButton();
         btnagregarpieza = new javax.swing.JButton();
         btneliminarpieza = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        BtnCerrarSesion = new javax.swing.JButton();
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setText("ID:");
@@ -334,9 +334,14 @@ public class Piezas extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
-        jButton4.setText("Cerrar Sesion");
-        jButton4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, null, null, new java.awt.Color(255, 102, 0)));
+        BtnCerrarSesion.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        BtnCerrarSesion.setText("Cerrar Sesion");
+        BtnCerrarSesion.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, null, null, new java.awt.Color(255, 102, 0)));
+        BtnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnCerrarSesionActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -353,7 +358,7 @@ public class Piezas extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(BtnCerrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(17, 17, 17))
                             .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -369,7 +374,7 @@ public class Piezas extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton4)
+                        .addComponent(BtnCerrarSesion)
                         .addGap(18, 18, 18)
                         .addComponent(btnagregarpieza, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -494,6 +499,16 @@ public class Piezas extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_TablaPiezasMouseClicked
 
+    private void BtnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCerrarSesionActionPerformed
+             int confirm = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea cerrar sesión?", "Confirmar cierre", JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.YES_OPTION) {
+            this.dispose(); // Cierra la ventana actual
+            // Crear e iniciar la ventana de inicio de sesión (Pagina_Logueo)
+            Pagina_Logueo loginPage = new Pagina_Logueo();
+            loginPage.setVisible(true); // Hacer visible la ventana de inicio de sesión
+        }
+    }//GEN-LAST:event_BtnCerrarSesionActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -532,6 +547,7 @@ public class Piezas extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BtnCerrarSesion;
     private javax.swing.JTable TablaPiezas;
     private javax.swing.JComboBox<String> arrancadorcbox;
     private javax.swing.JComboBox<String> bateriacbox;
@@ -541,7 +557,6 @@ public class Piezas extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cajacbox;
     private javax.swing.JComboBox<String> chasiscbox;
     private javax.swing.JComboBox<String> frenoscbox;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;

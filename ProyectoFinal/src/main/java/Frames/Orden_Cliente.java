@@ -22,7 +22,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Orden_Cliente extends javax.swing.JFrame {
 
-     // Método para eliminar la orden de la base de datos
+    // Método para eliminar la orden de la base de datos
     private void eliminarOrden(int id) {
         // Crear una conexión a la base de datos
         Conexion conexion = new Conexion();
@@ -44,13 +44,12 @@ public class Orden_Cliente extends javax.swing.JFrame {
             }
         }
     }
+
     /**
      * Creates new form Orden_Cliente
      */
     public Orden_Cliente() {
         initComponents();
-        
-       
 
     }
 
@@ -78,6 +77,7 @@ public class Orden_Cliente extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tblOrdenes = new javax.swing.JTable();
         btncerrarsesion = new javax.swing.JButton();
+        BtnEditarPerfil = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -208,6 +208,15 @@ public class Orden_Cliente extends javax.swing.JFrame {
             }
         });
 
+        BtnEditarPerfil.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        BtnEditarPerfil.setText("Editar Perfil");
+        BtnEditarPerfil.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, null, null, new java.awt.Color(255, 102, 0)));
+        BtnEditarPerfil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnEditarPerfilActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -222,7 +231,9 @@ public class Orden_Cliente extends javax.swing.JFrame {
                             .addComponent(btnagregarorden, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(251, 251, 251)
+                        .addGap(163, 163, 163)
+                        .addComponent(BtnEditarPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btncerrarsesion, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(26, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
@@ -236,7 +247,9 @@ public class Orden_Cliente extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(14, 14, 14)
-                        .addComponent(btncerrarsesion)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btncerrarsesion)
+                            .addComponent(BtnEditarPerfil))
                         .addGap(43, 43, 43)
                         .addComponent(btnagregarorden, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -252,93 +265,93 @@ public class Orden_Cliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnagregarordenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnagregarordenActionPerformed
-                                                    
-    // Capturar los valores ingresados
-    String tipo = cboxtipo.getSelectedItem().toString();
-    String marca = txtmarca.getText().trim();
-    String placa = txtplaca.getText().trim();
-    String descripcionProblema = txtproblema.getText().trim();
-    
-    // Validar que los campos requeridos no estén vacíos
-    if (marca.isEmpty() || placa.isEmpty() || descripcionProblema.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Por favor complete todos los campos.");
-        return;
-    }
 
-    // Mostrar un mensaje basado en el tipo de vehículo
-    if (tipo.equals("Moto")) {
-        Moto moto = new Moto(tipo, marca, placa);
-        JOptionPane.showMessageDialog(this, "Motocicleta agregada:\n" + moto);
-    } else if (tipo.equals("Carro")) {
-        Carro carro = new Carro(tipo, marca, placa);
-        JOptionPane.showMessageDialog(this, "Carro agregado:\n" + carro);
-    } else if (tipo.equals("Camion")) {
-        Camion camion = new Camion(tipo, marca, placa);
-        JOptionPane.showMessageDialog(this, "Camión agregado:\n" + camion);
-    } else {
-        JOptionPane.showMessageDialog(this, "Tipo de vehículo no reconocido.");
-    }
+        // Capturar los valores ingresados
+        String tipo = cboxtipo.getSelectedItem().toString();
+        String marca = txtmarca.getText().trim();
+        String placa = txtplaca.getText().trim();
+        String descripcionProblema = txtproblema.getText().trim();
 
-    // Obtener el modelo de la tabla
-    DefaultTableModel model = (DefaultTableModel) tblOrdenes.getModel();
-    
-     System.out.println("Número de filas: " + model.getRowCount());
-
-    // Generar un número de orden único basado en la cantidad actual de filas
-    int numeroOrden = model.getRowCount() + 1;
-
-    // Datos adicionales para las columnas
-    String piezas = ""; // No se especifica al agregar
-    String estado = "Pendiente"; // Estado inicial
-    double precio = 0.0; // Precio inicial
-
-    // Agregar los datos a la tabla respetando el orden de las columnas
-    model.addRow(new Object[] {
-        numeroOrden,         // Orden
-        marca,               // Marca
-        placa,               // Placa
-        tipo,                // Tipo Vehículo
-        piezas,              // Piezas
-        estado,              // Estado
-        String.format("%.2f", precio), // Precio formateado
-        descripcionProblema  // Des.Problema
-    });
-    
-   // Insertar los datos en la base de datos
-    Conexion conexion = new Conexion();
-    try (Connection conn = conexion.conectar()) {
-        if (conn == null) {
-            JOptionPane.showMessageDialog(this, "Error al conectar con la base de datos.");
+        // Validar que los campos requeridos no estén vacíos
+        if (marca.isEmpty() || placa.isEmpty() || descripcionProblema.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor complete todos los campos.");
             return;
         }
 
-        String sql = "INSERT INTO Ordenes_Cliente (Marca, Placa, TipoVehiculo, Piezas, Estado, Precio, DescripcionProblema) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, marca);
-            ps.setString(2, placa);
-            ps.setString(3, tipo);
-            ps.setString(4, piezas);
-            ps.setString(5, estado);
-            ps.setDouble(6, precio);
-            ps.setString(7, descripcionProblema);
-
-            ps.executeUpdate();
-            JOptionPane.showMessageDialog(this, "Orden guardada en la base de datos.");
+        // Mostrar un mensaje basado en el tipo de vehículo
+        if (tipo.equals("Moto")) {
+            Moto moto = new Moto(tipo, marca, placa);
+            JOptionPane.showMessageDialog(this, "Motocicleta agregada:\n" + moto);
+        } else if (tipo.equals("Carro")) {
+            Carro carro = new Carro(tipo, marca, placa);
+            JOptionPane.showMessageDialog(this, "Carro agregado:\n" + carro);
+        } else if (tipo.equals("Camion")) {
+            Camion camion = new Camion(tipo, marca, placa);
+            JOptionPane.showMessageDialog(this, "Camión agregado:\n" + camion);
+        } else {
+            JOptionPane.showMessageDialog(this, "Tipo de vehículo no reconocido.");
         }
-    } catch (SQLException ex) {
-        JOptionPane.showMessageDialog(this, "Error al guardar en la base de datos: " + ex.getMessage());
-        ex.printStackTrace();
-    } finally {
-        conexion.desconectar();
-    }
 
-    // Limpiar los campos del formulario
-    txtmarca.setText("");
-    txtplaca.setText("");
-    cboxtipo.setSelectedIndex(0);
-    txtproblema.setText("");
+        // Obtener el modelo de la tabla
+        DefaultTableModel model = (DefaultTableModel) tblOrdenes.getModel();
 
-        
+        System.out.println("Número de filas: " + model.getRowCount());
+
+        // Generar un número de orden único basado en la cantidad actual de filas
+        int numeroOrden = model.getRowCount() + 1;
+
+        // Datos adicionales para las columnas
+        String piezas = ""; // No se especifica al agregar
+        String estado = "Pendiente"; // Estado inicial
+        double precio = 0.0; // Precio inicial
+
+        // Agregar los datos a la tabla respetando el orden de las columnas
+        model.addRow(new Object[]{
+            numeroOrden, // Orden
+            marca, // Marca
+            placa, // Placa
+            tipo, // Tipo Vehículo
+            piezas, // Piezas
+            estado, // Estado
+            String.format("%.2f", precio), // Precio formateado
+            descripcionProblema // Des.Problema
+        });
+
+        // Insertar los datos en la base de datos
+        Conexion conexion = new Conexion();
+        try (Connection conn = conexion.conectar()) {
+            if (conn == null) {
+                JOptionPane.showMessageDialog(this, "Error al conectar con la base de datos.");
+                return;
+            }
+
+            String sql = "INSERT INTO Ordenes_Cliente (Marca, Placa, TipoVehiculo, Piezas, Estado, Precio, DescripcionProblema) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setString(1, marca);
+                ps.setString(2, placa);
+                ps.setString(3, tipo);
+                ps.setString(4, piezas);
+                ps.setString(5, estado);
+                ps.setDouble(6, precio);
+                ps.setString(7, descripcionProblema);
+
+                ps.executeUpdate();
+                JOptionPane.showMessageDialog(this, "Orden guardada en la base de datos.");
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error al guardar en la base de datos: " + ex.getMessage());
+            ex.printStackTrace();
+        } finally {
+            conexion.desconectar();
+        }
+
+        // Limpiar los campos del formulario
+        txtmarca.setText("");
+        txtplaca.setText("");
+        cboxtipo.setSelectedIndex(0);
+        txtproblema.setText("");
+
+
     }//GEN-LAST:event_btnagregarordenActionPerformed
 
     private void txtproblemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtproblemaActionPerformed
@@ -374,14 +387,18 @@ public class Orden_Cliente extends javax.swing.JFrame {
 
     private void btncerrarsesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncerrarsesionActionPerformed
         int confirm = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea cerrar sesión?", "Confirmar cierre", JOptionPane.YES_NO_OPTION);
-    if (confirm == JOptionPane.YES_OPTION) {
-        this.dispose(); // Cierra la ventana actual
-         // Crear e iniciar la ventana de inicio de sesión (Pagina_Logueo)
-        Pagina_Logueo loginPage = new Pagina_Logueo();
-        loginPage.setVisible(true); // Hacer visible la ventana de inicio de sesión
-    }
-    
+        if (confirm == JOptionPane.YES_OPTION) {
+            this.dispose(); // Cierra la ventana actual
+            // Crear e iniciar la ventana de inicio de sesión (Pagina_Logueo)
+            Pagina_Logueo loginPage = new Pagina_Logueo();
+            loginPage.setVisible(true); // Hacer visible la ventana de inicio de sesión
+        }
     }//GEN-LAST:event_btncerrarsesionActionPerformed
+
+    private void BtnEditarPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEditarPerfilActionPerformed
+        new VisualizarPerfil().setVisible(true);
+        setVisible(false);
+    }//GEN-LAST:event_BtnEditarPerfilActionPerformed
 
     /**
      * @param args the command line arguments
@@ -419,6 +436,7 @@ public class Orden_Cliente extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BtnEditarPerfil;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnagregarorden;
     private javax.swing.JButton btncerrarsesion;

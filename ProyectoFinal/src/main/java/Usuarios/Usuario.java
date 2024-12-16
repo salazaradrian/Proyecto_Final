@@ -52,7 +52,7 @@ public abstract class Usuario {
 
         try {
             Statement stmt = conexion.conectar().createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM proyecto_sgv");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM usuario");
 
             while (rs.next()) {
                 datos[0] = String.valueOf(rs.getInt("codigo"));
@@ -78,7 +78,7 @@ public abstract class Usuario {
     public void agregar() {
         Conexion conexion = new Conexion();
 
-        String sql = "INSERT INTO proyecto_sgv (nombre, usuario, contraseña, rol) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO usuario (usuario, nombre, contrasena, rol) VALUES (?, ?, ?, ?)";
 
         try {
             CallableStatement cs = conexion.conectar().prepareCall(sql);
@@ -104,7 +104,7 @@ public abstract class Usuario {
     public void editar() {
         Conexion conexion = new Conexion();
 
-        String sql = "UPDATE proyecto_sgv SET nombre = ?, usuario = ?, contraseña = ?, rol = ? WHERE idUsuario = ?";
+        String sql = "UPDATE usuario SET usuario = ?, nombre = ?, contrasena = ?, rol = ? WHERE idUsuario = ?";
 
         try {
             CallableStatement cs = conexion.conectar().prepareCall(sql);
@@ -131,7 +131,7 @@ public abstract class Usuario {
     public void eliminar() {
         Conexion conexion = new Conexion();
 
-        String sql = "DELETE FROM proyecto_sgv WHERE idUsuario = ?";
+        String sql = "DELETE FROM usuario WHERE idUsuario = ?";
         
         try {
             CallableStatement cs = conexion.conectar().prepareCall(sql);

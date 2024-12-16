@@ -6,6 +6,7 @@ package Frames;
 
 import Ordenes.OrdenPieza;
 import java.awt.Font;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -20,12 +21,11 @@ public class Pagina_Mecanico extends javax.swing.JFrame {
     public Pagina_Mecanico() {
         initComponents();
         TablaRepuestos.getTableHeader().setFont(new Font("Verdana", Font.BOLD, 14));
-        
+
         consultarInventarioPiezas();
-        
+
     }
-    
-    
+
     public void consultarInventarioPiezas() {
         DefaultTableModel modelo = OrdenPieza.consultarInventario();
         TablaRepuestos.setModel(modelo);
@@ -61,7 +61,7 @@ public class Pagina_Mecanico extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         TablaRepuestos = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        BtnCerrarSesion = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         txtidmecanico1 = new javax.swing.JTextField();
@@ -85,6 +85,7 @@ public class Pagina_Mecanico extends javax.swing.JFrame {
         jComboBox14 = new javax.swing.JComboBox<>();
         jLabel20 = new javax.swing.JLabel();
         btngenerarorden = new javax.swing.JButton();
+        BtnEditarPerfil = new javax.swing.JButton();
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel8.setText("Caja:");
@@ -196,9 +197,14 @@ public class Pagina_Mecanico extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
-        jButton1.setText("Cerrar Sesion");
-        jButton1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, null, null, new java.awt.Color(255, 102, 0)));
+        BtnCerrarSesion.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        BtnCerrarSesion.setText("Cerrar Sesion");
+        BtnCerrarSesion.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, null, null, new java.awt.Color(255, 102, 0)));
+        BtnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnCerrarSesionActionPerformed(evt);
+            }
+        });
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2), "Gestionar Ordenes", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 3, 14)))); // NOI18N
 
@@ -377,6 +383,15 @@ public class Pagina_Mecanico extends javax.swing.JFrame {
                 .addGap(5, 5, 5))
         );
 
+        BtnEditarPerfil.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        BtnEditarPerfil.setText("Editar Perfil");
+        BtnEditarPerfil.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, null, null, new java.awt.Color(255, 102, 0)));
+        BtnEditarPerfil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnEditarPerfilActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -389,9 +404,12 @@ public class Pagina_Mecanico extends javax.swing.JFrame {
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(40, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(605, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(BtnEditarPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(BtnCerrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btnsolicitudpieza, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -399,7 +417,9 @@ public class Pagina_Mecanico extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BtnCerrarSesion)
+                    .addComponent(BtnEditarPerfil))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -420,14 +440,29 @@ public class Pagina_Mecanico extends javax.swing.JFrame {
 
     private void btnsolicitudpiezaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsolicitudpiezaActionPerformed
         // Instantiate the Piezas frame
-    Piezas piezasFrame = new Piezas(this);
-    
-    // Set it visible
-    piezasFrame.setVisible(true);
-    
-    // Optionally hide or dispose of the current frame
-    this.dispose(); // Hides and releases resources of the current frame
+        Piezas piezasFrame = new Piezas(this);
+
+        // Set it visible
+        piezasFrame.setVisible(true);
+
+        // Optionally hide or dispose of the current frame
+        this.dispose(); // Hides and releases resources of the current frame
     }//GEN-LAST:event_btnsolicitudpiezaActionPerformed
+
+    private void BtnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCerrarSesionActionPerformed
+        int confirm = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea cerrar sesión?", "Confirmar cierre", JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.YES_OPTION) {
+            this.dispose(); // Cierra la ventana actual
+            // Crear e iniciar la ventana de inicio de sesión (Pagina_Logueo)
+            Pagina_Logueo loginPage = new Pagina_Logueo();
+            loginPage.setVisible(true); // Hacer visible la ventana de inicio de sesión
+        }
+    }//GEN-LAST:event_BtnCerrarSesionActionPerformed
+
+    private void BtnEditarPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEditarPerfilActionPerformed
+        new VisualizarPerfil().setVisible(true);
+        setVisible(false);
+    }//GEN-LAST:event_BtnEditarPerfilActionPerformed
 
     /**
      * @param args the command line arguments
@@ -466,10 +501,11 @@ public class Pagina_Mecanico extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BtnCerrarSesion;
+    private javax.swing.JButton BtnEditarPerfil;
     private javax.swing.JTable TablaRepuestos;
     private javax.swing.JButton btngenerarorden;
     private javax.swing.JButton btnsolicitudpieza;
-    private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox10;
     private javax.swing.JComboBox<String> jComboBox11;

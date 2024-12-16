@@ -259,6 +259,7 @@ public class VisualizarPerfil extends javax.swing.JFrame {
             };
             usuario.editar();
             new Pagina_Logueo().setVisible(true);
+            setLocationRelativeTo(null);
             setVisible(false);
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(null, "Debe de haber nuevos datos para poder realizar una actualización de datos");
@@ -299,6 +300,7 @@ public class VisualizarPerfil extends javax.swing.JFrame {
             };
             usuario.eliminar();
             new Pagina_Logueo().setVisible(true);
+            setLocationRelativeTo(null);
             setVisible(false);
         }
     }//GEN-LAST:event_BtnEliminarActionPerformed
@@ -308,7 +310,8 @@ public class VisualizarPerfil extends javax.swing.JFrame {
     }//GEN-LAST:event_BtnLimpiarActionPerformed
 
     private void BtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCancelarActionPerformed
-        new Pagina_Logueo().setVisible(true);
+        new Pagina_Logueo().setVisible(true);   
+        setLocationRelativeTo(null);
         setVisible(false);
     }//GEN-LAST:event_BtnCancelarActionPerformed
 

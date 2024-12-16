@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
 public class Pagina_Logueo extends javax.swing.JFrame {
 
     protected static String usuario;
-    
+
     /**
      * Creates new form PaginaInicio
      */
@@ -212,17 +212,19 @@ public class Pagina_Logueo extends javax.swing.JFrame {
                 switch (role) {
                     case "Mecanico":
                         new Pagina_Mecanico().setVisible(true);
+                        setLocationRelativeTo(null);
                         break;
                     case "UsuarioGeneral":
                         new Orden_Cliente().setVisible(true);
+                        setLocationRelativeTo(null);
                         break;
                     default:
                         JOptionPane.showMessageDialog(this, "Rol no reconocido");
                         break;
                 }
-                
+
                 this.dispose();
-                
+
             } else {
                 JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos");
             }

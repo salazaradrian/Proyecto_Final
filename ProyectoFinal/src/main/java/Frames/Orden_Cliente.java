@@ -397,6 +397,7 @@ public class Orden_Cliente extends javax.swing.JFrame {
 
     private void BtnEditarPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEditarPerfilActionPerformed
         new VisualizarPerfil().setVisible(true);
+        setLocationRelativeTo(null);
         setVisible(false);
     }//GEN-LAST:event_BtnEditarPerfilActionPerformed
 

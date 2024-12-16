@@ -460,7 +460,8 @@ public class Pagina_Mecanico extends javax.swing.JFrame {
     }//GEN-LAST:event_BtnCerrarSesionActionPerformed
 
     private void BtnEditarPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEditarPerfilActionPerformed
-        new VisualizarPerfil().setVisible(true);
+        new VisualizarPerfil().setVisible(true); 
+        setLocationRelativeTo(null);
         setVisible(false);
     }//GEN-LAST:event_BtnEditarPerfilActionPerformed
 

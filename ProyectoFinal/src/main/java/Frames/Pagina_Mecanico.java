@@ -47,8 +47,8 @@ public class Pagina_Mecanico extends javax.swing.JFrame {
         DefaultTableModel modelo = OrdenReparacion.consultar();
         tblordenes.setModel(modelo);
     }
-    
-    public void limpiar(){
+
+    public void limpiar() {
         txtid.setText("");
         cboxestado.setSelectedIndex(0);
         cboxmotor.setSelectedIndex(0);
@@ -232,6 +232,11 @@ public class Pagina_Mecanico extends javax.swing.JFrame {
         BtnCerrarSesion.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         BtnCerrarSesion.setText("Cerrar Sesion");
         BtnCerrarSesion.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, null, null, new java.awt.Color(255, 102, 0)));
+        BtnCerrarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BtnCerrarSesionMouseClicked(evt);
+            }
+        });
         BtnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnCerrarSesionActionPerformed(evt);
@@ -472,7 +477,7 @@ public class Pagina_Mecanico extends javax.swing.JFrame {
             int caja = cboxcaja.getSelectedIndex();
             int bateria = cboxbateria.getSelectedIndex();
             int arrancador = cboxarrancador.getSelectedIndex();
-            
+
             OrdenReparacion orden = new OrdenReparacion(codigo, motor, chasis, frenos, caja, arrancador, llantas, bateria, estado);
             orden.editar();
             consultarOrdenes();
@@ -500,6 +505,24 @@ public class Pagina_Mecanico extends javax.swing.JFrame {
         cboxestado.setSelectedItem(Tipo.valueOf(tblordenes.getValueAt(fila, 4).toString()));
 
     }//GEN-LAST:event_tblordenesMouseClicked
+
+    private void BtnCerrarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnCerrarSesionMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BtnCerrarSesionMouseClicked
+
+    private void BtnEditarPerfilActionPerformed(java.awt.event.ActionEvent evt) {
+        // Your code here
+    }
+
+    private void BtnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {
+        int confirm = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea cerrar sesión?", "Confirmar cierre", JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.YES_OPTION) {
+            this.dispose(); // Cierra la ventana actual
+            // Crear e iniciar la ventana de inicio de sesión (Pagina_Logueo)
+            Pagina_Logueo loginPage = new Pagina_Logueo();
+            loginPage.setVisible(true); // Hacer visible la ventana de inicio de sesión
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -551,7 +574,6 @@ public class Pagina_Mecanico extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cboxfrenos;
     private javax.swing.JComboBox<String> cboxllantas;
     private javax.swing.JComboBox<String> cboxmotor;
-    private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JComboBox<String> jComboBox4;

@@ -368,6 +368,14 @@ public class Orden_Cliente extends javax.swing.JFrame {
         txtproblema.setText(tblOrdenes.getValueAt(fila, 3).toString());
     }//GEN-LAST:event_tblOrdenesMouseClicked
 
+    
+    private void BtnEditarPerfilActionPerformed(java.awt.event.ActionEvent evt) {
+        // Your code here
+    }
+    
+    
+    
+    
     /**
      * @param args the command line arguments
      */

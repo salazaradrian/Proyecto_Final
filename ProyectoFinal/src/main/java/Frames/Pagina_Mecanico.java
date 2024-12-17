@@ -479,7 +479,7 @@ public class Pagina_Mecanico extends javax.swing.JFrame {
 
     private void btngenerarordenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btngenerarordenActionPerformed
         if (txtid.getText() == null || txtid.getText().equals("")) {
-            JOptionPane.showMessageDialog(this, "Por favor, seleccione un artista de la tabla para editar los datos");
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione una orden de la tabla para editar los datos");
             return;
         }
 

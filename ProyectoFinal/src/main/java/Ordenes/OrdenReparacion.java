@@ -140,35 +140,68 @@ public class OrdenReparacion extends Orden {
     }
 
     public void editar() {
-        Conexion conexion = new Conexion();
+    
+    Conexion conexion = new Conexion();
 
-        String sql = "UPDATE orden_reparacion SET precio = ?, piezas = ?, estado = ? WHERE id = ?";
+    // Consulta para actualizar la tabla orden_reparacion
+    String sqlOrdenReparacion = "UPDATE orden_reparacion SET precio = ?, piezas = ?, estado = ? WHERE id = ?";
+    
+    // Consulta para actualizar la tabla inventario_piezas
+    String sqlInventarioPiezas = "UPDATE inventario_piezas SET totalMotor = ?, totalChasis = ?, totalFrenos = ?, totalCaja = ?, totalFocos = ?, totalLlantas = ?, totalBateria = ? WHERE id = ?";
 
-        try {
-            // Prepare the callable statement
-            CallableStatement cs = conexion.conectar().prepareCall(sql);
+    try {
+        // Preparar el statement para actualizar orden_reparacion
+        PreparedStatement psOrdenReparacion = conexion.conectar().prepareStatement(sqlOrdenReparacion);
 
-            // Set parameters dynamically
-            cs.setFloat(1, this.precio); // Update precio
-            cs.setString(2, this.piezas.toString()); // Update piezas as a string
-            cs.setString(3, this.estado.toString()); // Update estado
-            cs.setInt(4, this.id); // Specify the record ID to update
+        // Establecer los parámetros para la tabla orden_reparacion
+        psOrdenReparacion.setFloat(1, this.precio); // Actualizar precio
+        psOrdenReparacion.setString(2, this.piezas.toString()); // Asegúrate de que piezas sea un objeto que pueda convertirse a String
+        psOrdenReparacion.setString(3, this.estado.toString()); // Asegúrate de que estado sea un objeto que pueda convertirse a String
+        psOrdenReparacion.setInt(4, this.id); // Especificar el ID del registro a actualizar en orden_reparacion
 
-            // Execute the update operation
-            cs.execute();
+        // Ejecutar la actualización de orden_reparacion
+        int rowsAffectedOrdenReparacion = psOrdenReparacion.executeUpdate();
 
-            // Notify the user of success
-            JOptionPane.showMessageDialog(null, "El registro se ha editado de manera exitosa");
-
-        } catch (SQLException ex) {
-            // Handle SQL errors
-            JOptionPane.showMessageDialog(null, "Error al editar el registro");
-            System.out.println("Error Consulta: " + ex.toString());
-        } finally {
-            // Safely close the connection
-            conexion.desconectar();
+        // Verificar cuántas filas fueron afectadas
+        if (rowsAffectedOrdenReparacion > 0) {
+            JOptionPane.showMessageDialog(null, "El registro de orden de reparación se ha editado de manera exitosa");
+        } else {
+            JOptionPane.showMessageDialog(null, "No se encontraron registros de orden de reparación para actualizar.");
         }
+
+        // Preparar el statement para actualizar inventario_piezas
+        PreparedStatement psInventarioPiezas = conexion.conectar().prepareStatement(sqlInventarioPiezas);
+
+        // Establecer los parámetros para la tabla inventario_piezas
+        psInventarioPiezas.setInt(1, this.totalMotor); // Actualizar totalMotor
+        psInventarioPiezas.setInt(2, this.chasis); // Actualizar totalChasis
+        psInventarioPiezas.setInt(3, this.frenos); // Actualizar totalFrenos
+        psInventarioPiezas.setInt(4, this.caja); // Actualizar totalCaja
+        psInventarioPiezas.setInt(5, this.focos); // Actualizar totalFocos
+        psInventarioPiezas.setInt(6, this.llantas); // Actualizar totalLlantas
+        psInventarioPiezas.setInt(7, this.bateria); // Actualizar totalBateria
+        psInventarioPiezas.setInt(8, this.id); // Especificar el ID de inventario_piezas a actualizar
+
+        // Ejecutar la actualización de inventario_piezas
+        int rowsAffectedInventarioPiezas = psInventarioPiezas.executeUpdate();
+
+        // Verificar cuántas filas fueron afectadas
+        if (rowsAffectedInventarioPiezas > 0) {
+            JOptionPane.showMessageDialog(null, "El inventario de piezas se ha actualizado correctamente");
+        } else {
+            JOptionPane.showMessageDialog(null, "No se encontraron registros de inventario de piezas para actualizar.");
+        }
+
+    } catch (SQLException ex) {
+        // Manejar errores de SQL
+        JOptionPane.showMessageDialog(null, "Error al editar el registro");
+        System.out.println("Error Consulta: " + ex.toString());
+    } finally {
+        // Cerrar la conexión de manera segura
+        conexion.desconectar();
     }
+}
+
 
     public static DefaultTableModel consultar() {
         Conexion conexion = new Conexion();

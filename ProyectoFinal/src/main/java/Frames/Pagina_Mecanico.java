@@ -459,7 +459,7 @@ public class Pagina_Mecanico extends javax.swing.JFrame {
 
     private void btngenerarordenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btngenerarordenActionPerformed
         if (txtid.getText() == null || txtid.getText().equals("")) {
-            JOptionPane.showMessageDialog(this, "Por favor, seleccione un artista de la tabla para editar los datos");
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione una Orden De Reparacion de la tabla para editar los datos");
             return;
         }
 
@@ -474,6 +474,7 @@ public class Pagina_Mecanico extends javax.swing.JFrame {
             int bateria = cboxbateria.getSelectedIndex();
             int arrancador = cboxarrancador.getSelectedIndex();
             
+           
             OrdenReparacion orden = new OrdenReparacion(codigo, motor, chasis, frenos, caja, arrancador, llantas, bateria, estado);
             orden.editar();
             consultarOrdenes();
@@ -481,7 +482,7 @@ public class Pagina_Mecanico extends javax.swing.JFrame {
 
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(null, "El precio debe de ser un valor numerico");
-        }        // TODO add your handling code here:
+        }        
     }//GEN-LAST:event_btngenerarordenActionPerformed
 
     private void btnsolicitudpiezaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsolicitudpiezaActionPerformed

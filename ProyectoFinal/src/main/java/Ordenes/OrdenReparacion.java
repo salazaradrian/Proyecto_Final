@@ -44,7 +44,7 @@ public class OrdenReparacion extends Orden {
 
     }
 
-    public OrdenReparacion(int id, int cantidadMotor, int cantidadChasis, int cantidadFrenos, int cantidadCaja, int cantidadFocos, int cantidadLlantas, int cantidadBateria, Estado estado) {
+    public OrdenReparacion(int id, int cantidadMotor, int cantidadChasis, int cantidadFrenos, int cantidadCaja, int cantidadArrancador, int cantidadLlantas, int cantidadBateria, Estado estado) {
         super(Estado.EnProceso, 0.0f);
         this.id = id;
 
@@ -59,16 +59,16 @@ public class OrdenReparacion extends Orden {
         agregarPiezas(Piezas.Bateria, cantidadBateria, piezas);
 
         this.piezas = piezas;
-        this.precio = CalcularPrecio(cantidadMotor, cantidadChasis, cantidadFrenos, cantidadCaja, cantidadFocos, cantidadLlantas, cantidadBateria);
+        this.precio = CalcularPrecio(cantidadMotor, cantidadChasis, cantidadFrenos, cantidadCaja, cantidadArrancador, cantidadLlantas, cantidadBateria);
         this.estado = estado;
     }
 
-    private float CalcularPrecio(int cantidadMotor, int cantidadChasis, int cantidadFrenos, int cantidadCaja, int cantidadFocos, int cantidadLlantas, int cantidadBateria) {
+    private float CalcularPrecio(int cantidadMotor, int cantidadChasis, int cantidadFrenos, int cantidadCaja, int cantidadArrancador, int cantidadLlantas, int cantidadBateria) {
         float precioMotor = 100.0f;
         float precioChasis = 150.0f;
         float precioFrenos = 50.0f;
         float precioCaja = 80.0f;
-        float precioFocos = 30.0f;
+        float precioArrancador = 30.0f;
         float precioLlantas = 60.0f;
         float precioBateria = 40.0f;
 
@@ -76,7 +76,7 @@ public class OrdenReparacion extends Orden {
                 + (cantidadChasis * precioChasis)
                 + (cantidadFrenos * precioFrenos)
                 + (cantidadCaja * precioCaja)
-                + (cantidadFocos * precioFocos)
+                + (cantidadArrancador * precioArrancador)
                 + (cantidadLlantas * precioLlantas)
                 + (cantidadBateria * precioBateria);
     }
@@ -230,7 +230,7 @@ public class OrdenReparacion extends Orden {
         ArrayList<Integer> inventario = new ArrayList<>();
 
         try {
-            String sqlSelect = "SELECT totalMotor, totalChasis, totalFrenos, totalCaja, totalFocos, totalLlantas, totalBateria "
+            String sqlSelect = "SELECT totalMotor, totalChasis, totalFrenos, totalCaja, totalArrancador, totalLlantas, totalBateria "
                     + "FROM inventario_piezas WHERE id = 1"; // Assuming a single row for inventory
             PreparedStatement psSelect = conexion.conectar().prepareStatement(sqlSelect);
             ResultSet rs = psSelect.executeQuery();
@@ -241,11 +241,11 @@ public class OrdenReparacion extends Orden {
                 int currentChasis = rs.getInt("totalChasis");
                 int currentFrenos = rs.getInt("totalFrenos");
                 int currentCaja = rs.getInt("totalCaja");
-                int currentFocos = rs.getInt("totalFocos");
+                int currentArrancador = rs.getInt("totalArrancador");
                 int currentLlantas = rs.getInt("totalLlantas");
                 int currentBateria = rs.getInt("totalBateria");
 
-                if(motor <= currentMotor & chasis <= currentChasis & frenos <= currentFrenos & caja <= currentCaja & arrancador <= currentFocos & llantas <= currentLlantas & bateria <=currentBateria){
+                if(motor <= currentMotor & chasis <= currentChasis & frenos <= currentFrenos & caja <= currentCaja & arrancador <= currentArrancador & llantas <= currentLlantas & bateria <=currentBateria){
                     
                     OrdenReparacion.restarInventario(motor, chasis, llantas, frenos, caja, bateria, arrancador);
                     this.editar();
@@ -278,7 +278,7 @@ public class OrdenReparacion extends Orden {
                 int currentChasis = rs.getInt("totalChasis");
                 int currentFrenos = rs.getInt("totalFrenos");
                 int currentCaja = rs.getInt("totalCaja");
-                int currentFocos = rs.getInt("totalFocos");
+                int currentArrancador = rs.getInt("totalArrancador");
                 int currentLlantas = rs.getInt("totalLlantas");
                 int currentBateria = rs.getInt("totalBateria");
 
@@ -286,12 +286,12 @@ public class OrdenReparacion extends Orden {
                 int updatedChasis = currentChasis - chasis;
                 int updatedFrenos = currentFrenos - frenos;
                 int updatedCaja = currentCaja - caja;
-                int updatedFocos = currentFocos - arrancador;
+                int updatedArrancador = currentArrancador - arrancador;
                 int updatedLlantas = currentLlantas - llantas;
                 int updatedBateria = currentBateria - bateria;
 
                 String sqlUpdate = "UPDATE inventario_piezas SET totalMotor = ?, totalChasis = ?, totalFrenos = ?, "
-                        + "totalCaja = ?, totalFocos = ?, totalLlantas = ?, totalBateria = ? WHERE id = 1";
+                        + "totalCaja = ?, totalArrancador = ?, totalLlantas = ?, totalBateria = ? WHERE id = 1";
 
                 PreparedStatement psUpdate = conexion.conectar().prepareStatement(sqlUpdate);
 
@@ -299,7 +299,7 @@ public class OrdenReparacion extends Orden {
                 psUpdate.setInt(2, updatedChasis);
                 psUpdate.setInt(3, updatedFrenos);
                 psUpdate.setInt(4, updatedCaja);
-                psUpdate.setInt(5, updatedFocos);
+                psUpdate.setInt(5, updatedArrancador);
                 psUpdate.setInt(6, updatedLlantas);
                 psUpdate.setInt(7, updatedBateria);
 

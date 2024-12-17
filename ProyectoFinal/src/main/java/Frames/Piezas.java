@@ -78,7 +78,7 @@ public class Piezas extends javax.swing.JFrame {
     public void limpiar() {
         txtID.setText("");
         motorcbox.setSelectedIndex(1);
-        arrancadorcbox.setSelectedIndex(1);
+        focoscbox.setSelectedIndex(1);
         bateriacbox.setSelectedIndex(1);
         cajacbox.setSelectedIndex(1);
         chasiscbox.setSelectedIndex(1);
@@ -112,7 +112,7 @@ public class Piezas extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         bateriacbox = new javax.swing.JComboBox<>();
         jLabel11 = new javax.swing.JLabel();
-        arrancadorcbox = new javax.swing.JComboBox<>();
+        focoscbox = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaPiezas = new javax.swing.JTable();
@@ -164,7 +164,7 @@ public class Piezas extends javax.swing.JFrame {
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel11.setText("Focos");
 
-        arrancadorcbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
+        focoscbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -183,7 +183,7 @@ public class Piezas extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(arrancadorcbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(focoscbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -240,7 +240,7 @@ public class Piezas extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(arrancadorcbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(focoscbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(41, 41, 41))
         );
 
@@ -369,7 +369,7 @@ public class Piezas extends javax.swing.JFrame {
         int cantidadChasis = Integer.parseInt((String) chasiscbox.getSelectedItem());
         int cantidadFrenos = Integer.parseInt((String) frenoscbox.getSelectedItem());
         int cantidadCaja = Integer.parseInt((String) cajacbox.getSelectedItem());
-        int cantidadFocos = Integer.parseInt((String) arrancadorcbox.getSelectedItem());
+        int cantidadFocos = Integer.parseInt((String) focoscbox.getSelectedItem());
         int cantidadLlantas = Integer.parseInt((String) llantascbox.getSelectedItem());
         int cantidadBateria = Integer.parseInt((String) bateriacbox.getSelectedItem());
 
@@ -462,7 +462,7 @@ public class Piezas extends javax.swing.JFrame {
             cajacbox.setSelectedItem(TablaPiezas.getValueAt(selectedRow, 6).toString()); 
             llantascbox.setSelectedItem(TablaPiezas.getValueAt(selectedRow, 7).toString()); 
             bateriacbox.setSelectedItem(TablaPiezas.getValueAt(selectedRow, 8).toString()); 
-            arrancadorcbox.setSelectedItem(TablaPiezas.getValueAt(selectedRow, 9).toString());
+            focoscbox.setSelectedItem(TablaPiezas.getValueAt(selectedRow, 9).toString());
         }
     }//GEN-LAST:event_TablaPiezasMouseClicked
 
@@ -516,13 +516,13 @@ public class Piezas extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnCerrarSesion;
     private javax.swing.JTable TablaPiezas;
-    private javax.swing.JComboBox<String> arrancadorcbox;
     private javax.swing.JComboBox<String> bateriacbox;
     private javax.swing.JButton btnactualizarpieza;
     private javax.swing.JButton btnagregarpieza;
     private javax.swing.JButton btneliminarpieza;
     private javax.swing.JComboBox<String> cajacbox;
     private javax.swing.JComboBox<String> chasiscbox;
+    private javax.swing.JComboBox<String> focoscbox;
     private javax.swing.JComboBox<String> frenoscbox;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

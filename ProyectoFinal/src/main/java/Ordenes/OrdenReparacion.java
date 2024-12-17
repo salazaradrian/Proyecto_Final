@@ -54,7 +54,7 @@ public class OrdenReparacion extends Orden {
         agregarPiezas(Piezas.Chasis, cantidadChasis, piezas);
         agregarPiezas(Piezas.Frenos, cantidadFrenos, piezas);
         agregarPiezas(Piezas.Caja, cantidadCaja, piezas);
-        agregarPiezas(Piezas.Arrancador, cantidadFocos, piezas);
+        agregarPiezas(Piezas.Focos, cantidadFocos, piezas);
         agregarPiezas(Piezas.Llantas, cantidadLlantas, piezas);
         agregarPiezas(Piezas.Bateria, cantidadBateria, piezas);
 

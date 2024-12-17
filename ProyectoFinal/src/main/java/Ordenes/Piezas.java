@@ -9,6 +9,6 @@ package Ordenes;
  * @author rperez
  */
 public enum Piezas {
-    Motor, Chasis, Llantas, Frenos, Caja, Bateria, Arrancador;
+    Motor, Chasis, Llantas, Frenos, Caja, Bateria, Focos;
     
 }

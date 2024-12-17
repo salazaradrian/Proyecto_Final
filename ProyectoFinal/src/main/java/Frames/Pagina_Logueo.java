@@ -176,11 +176,11 @@ public class Pagina_Logueo extends javax.swing.JFrame {
 
     private void btningresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btningresarActionPerformed
 
-        // Recuperar nombre de usuario y contraseña de los campos de texto
+        
         usuario = txtuser.getText().trim();
         String contrasena = txtpassword.getText().trim();
 
-        // Validar que los campos no estén vacíos
+        
         if (usuario.isEmpty() || contrasena.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Ingrese su usuario y contraseña");
             return;
@@ -205,7 +205,7 @@ public class Pagina_Logueo extends javax.swing.JFrame {
 
             rs = ps.executeQuery();
 
-            // Verificar si hay un resultado
+            
             if (rs.next()) {
                 String role = rs.getString("rol");
 

@@ -117,24 +117,24 @@ public class OrdenReparacion extends Orden {
         String sql = "DELETE FROM orden_reparacion WHERE id = ?";
 
         try {
-            // Prepare the callable statement
+            
             CallableStatement cs = conexion.conectar().prepareCall(sql);
 
-            // Set the parameter: the ID of the order to delete
+            
             cs.setInt(1, this.id);
 
-            // Execute the delete operation
+            
             cs.execute();
 
-            // Notify the user of success
+            
             JOptionPane.showMessageDialog(null, "El registro se ha eliminado de manera exitosa");
 
         } catch (SQLException ex) {
-            // Handle SQL errors
+            
             JOptionPane.showMessageDialog(null, "Error al eliminar el registro");
             System.out.println("Error Consulta: " + ex.toString());
         } finally {
-            // Disconnect from the database
+            
             conexion.desconectar();
         }
     }
@@ -145,27 +145,27 @@ public class OrdenReparacion extends Orden {
         String sql = "UPDATE orden_reparacion SET precio = ?, piezas = ?, estado = ? WHERE id = ?";
 
         try {
-            // Prepare the callable statement
+            
             CallableStatement cs = conexion.conectar().prepareCall(sql);
 
-            // Set parameters dynamically
-            cs.setFloat(1, this.precio); // Update precio
-            cs.setString(2, this.piezas.toString()); // Update piezas as a string
-            cs.setString(3, this.estado.toString()); // Update estado
-            cs.setInt(4, this.id); // Specify the record ID to update
+            
+            cs.setFloat(1, this.precio); 
+            cs.setString(2, this.piezas.toString()); 
+            cs.setString(3, this.estado.toString()); 
+            cs.setInt(4, this.id); 
 
-            // Execute the update operation
+           
             cs.execute();
 
-            // Notify the user of success
+            
             JOptionPane.showMessageDialog(null, "El registro se ha editado de manera exitosa");
 
         } catch (SQLException ex) {
-            // Handle SQL errors
+            
             JOptionPane.showMessageDialog(null, "Error al editar el registro");
             System.out.println("Error Consulta: " + ex.toString());
         } finally {
-            // Safely close the connection
+            
             conexion.desconectar();
         }
     }
@@ -173,11 +173,11 @@ public class OrdenReparacion extends Orden {
     public static DefaultTableModel consultar() {
         Conexion conexion = new Conexion();
 
-        // Define the table model and column structure
+        
         DefaultTableModel modelo = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // Make table cells non-editable
+                return false; 
             }
         };
 
@@ -202,15 +202,15 @@ public class OrdenReparacion extends Orden {
             ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next()) {
-                datos[0] = String.valueOf(rs.getInt("id")); // Orden ID
-                datos[1] = rs.getString("marca"); // Marca from vehiculo
-                datos[2] = rs.getString("modelo"); // Modelo from vehiculo
-                datos[3] = rs.getString("placa"); // Placa from vehiculo
-                datos[4] = rs.getString("tipoVehiculo"); // Tipo from vehiculo (enum)
-                datos[5] = rs.getString("piezas"); // Piezas as a String
-                datos[6] = rs.getString("estado"); // Estado
-                datos[7] = String.valueOf(rs.getFloat("precio")); // Precio
-                datos[8] = rs.getString("descripcion_problema"); // Descripcion problema
+                datos[0] = String.valueOf(rs.getInt("id")); 
+                datos[1] = rs.getString("marca");
+                datos[2] = rs.getString("modelo");
+                datos[3] = rs.getString("placa");
+                datos[4] = rs.getString("tipoVehiculo");
+                datos[5] = rs.getString("piezas");
+                datos[6] = rs.getString("estado");
+                datos[7] = String.valueOf(rs.getFloat("precio"));
+                datos[8] = rs.getString("descripcion_problema");
 
                 modelo.addRow(datos); // Add the row to the table model
             }

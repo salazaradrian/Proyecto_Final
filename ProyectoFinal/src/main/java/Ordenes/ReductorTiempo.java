@@ -13,17 +13,17 @@ import javax.swing.JFrame;
  *
  * @author rperez
  */
-public class ReducidorTiempo extends Thread {
+public class ReductorTiempo extends Thread {
 
     private int ordenId;
     private int tiempoRestante;
-    private OrdenPieza ordenPieza; // Reference to OrdenPieza
+    private OrdenPieza ordenPieza;
     private JFrame frame;
 
-    public ReducidorTiempo(int ordenId, int tiempoRestante, OrdenPieza ordenPieza) {
+    public ReductorTiempo(int ordenId, int tiempoRestante, OrdenPieza ordenPieza) {
         this.ordenId = ordenId;
         this.tiempoRestante = tiempoRestante;
-        this.ordenPieza = ordenPieza; // Pass the OrdenPieza object
+        this.ordenPieza = ordenPieza;
         this.frame = frame;
     }
 
@@ -31,14 +31,13 @@ public class ReducidorTiempo extends Thread {
     public void run() {
         while (tiempoRestante > 0) {
             try {
-                Thread.sleep(1000); // Wait 5 seconds
+                Thread.sleep(1000);
                 tiempoRestante -= 1;
 
                 if (tiempoRestante <= 0) {
-                    tiempoRestante = 0; // Ensure it stops at 0
+                    tiempoRestante = 0;
                 }
 
-                // Update remaining time in database
                 actualizarTiempoRestanteEnDB();
 
                 System.out.println("Orden ID: " + ordenId + ", Tiempo restante: " + tiempoRestante + "s");
@@ -47,8 +46,7 @@ public class ReducidorTiempo extends Thread {
                 System.out.println("Error in timer: " + e.getMessage());
             }
         }
-        
-        // Order completed - Update inventory
+
         ordenPieza.actualizarInventario();
         System.out.println("Orden ID: " + ordenId + " completada. Inventario actualizado.");
     }

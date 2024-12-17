@@ -319,7 +319,7 @@ public class Orden_Cliente extends javax.swing.JFrame {
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(null, "El precio debe de ser un valor numerico");
         }
-        // Capturar los valores ingresados
+        
 
 
     }//GEN-LAST:event_btnagregarordenActionPerformed
@@ -349,8 +349,8 @@ public class Orden_Cliente extends javax.swing.JFrame {
     private void BtnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCerrarSesionActionPerformed
         int confirm = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea cerrar sesión?", "Confirmar cierre", JOptionPane.YES_NO_OPTION);
         if (confirm == JOptionPane.YES_OPTION) {
-            this.dispose(); // Cierra la ventana actual
-            // Crear e iniciar la ventana de inicio de sesión (Pagina_Logueo)
+            this.dispose(); 
+            
             Pagina_Logueo loginPage = new Pagina_Logueo();
             loginPage.setVisible(true); // Hacer visible la ventana de inicio de sesión
         }
@@ -372,10 +372,10 @@ public class Orden_Cliente extends javax.swing.JFrame {
     private void BtnEditarPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEditarPerfilActionPerformed
                  int confirm = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea Editar el Perfil ", "Confirmar cierre", JOptionPane.YES_NO_OPTION);
         if (confirm == JOptionPane.YES_OPTION) {
-            this.dispose(); // Cierra la ventana actual
-            // Crear e iniciar la ventana de inicio de sesión (Pagina_Logueo)
+            this.dispose(); 
+            
             VisualizarPerfil editperfil = new VisualizarPerfil();
-            editperfil.setVisible(true); // Hacer visible la ventana de inicio de sesión
+            editperfil.setVisible(true); 
         }
     }//GEN-LAST:event_BtnEditarPerfilActionPerformed
 

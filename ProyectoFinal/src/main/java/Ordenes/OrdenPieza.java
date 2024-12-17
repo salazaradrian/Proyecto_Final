@@ -112,11 +112,11 @@ public class OrdenPieza extends Orden {
 
             cs.executeUpdate();
 
-            // Retrieve the generated keys (ID)
+            
             ResultSet rs = cs.getGeneratedKeys();
             if (rs.next()) {
-                generatedId = rs.getInt(1); // Get the first column, which is the ID
-                this.id = generatedId; // Set the ID for the current object
+                generatedId = rs.getInt(1); 
+                this.id = generatedId; 
                 JOptionPane.showMessageDialog(null, "Vehículo agregado exitosamente con ID: " + generatedId);
             }
 

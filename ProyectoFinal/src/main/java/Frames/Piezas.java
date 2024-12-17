@@ -4,8 +4,8 @@
  */
 package Frames;
 
-import Ordenes.ReducidorTiempo;
 import Ordenes.OrdenPieza;
+import Ordenes.ReductorTiempo;
 import java.awt.Font;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -28,7 +28,7 @@ public class Piezas extends javax.swing.JFrame {
         this.paginaMecanico = paginaMecanico;
         initComponents();
 
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE); // Handle close operation manually
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE); 
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent e) {
@@ -36,7 +36,7 @@ public class Piezas extends javax.swing.JFrame {
             }
         });
 
-        //TablaPiezas.getColumn("Progress").setCellRenderer(new ProgressCellRenderer());
+        
         TablaPiezas.getTableHeader().setFont(new Font("Verdana", Font.BOLD, 14));
 
         txtID.setEnabled(false);
@@ -46,12 +46,12 @@ public class Piezas extends javax.swing.JFrame {
         new Thread(() -> {
             while (true) {
                 try {
-                    Thread.sleep(1000); // Wait 5 seconds
-                    consultarPiezas();  // Refresh table data
+                    Thread.sleep(1000); 
+                    consultarPiezas(); 
                     System.out.println("Table refreshed at: " + java.time.LocalTime.now());
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                    break; // Exit if interrupted
+                    break; 
                 }
             }
         }).start();
@@ -67,10 +67,10 @@ public class Piezas extends javax.swing.JFrame {
     }
 
     private void cerrarVentana() {
-        // Hide the current JFrame
+        
         this.dispose();
 
-        // Show the Pagina_Mecanico JFrame
+        
         if (paginaMecanico != null) {
             paginaMecanico.setVisible(true);
         }
@@ -382,7 +382,7 @@ public class Piezas extends javax.swing.JFrame {
 
         limpiar();
 
-        ReducidorTiempo timer = new ReducidorTiempo(codigo, orden.getTiempoRestante(), orden);
+        ReductorTiempo timer = new ReductorTiempo(codigo, orden.getTiempoRestante(), orden);
         timer.start();
 
     }//GEN-LAST:event_btnagregarpiezaActionPerformed
@@ -455,24 +455,24 @@ public class Piezas extends javax.swing.JFrame {
 
         if (selectedRow != -1) {
 
-            txtID.setText(TablaPiezas.getValueAt(selectedRow, 0).toString()); // Set ID field
-            motorcbox.setSelectedItem(TablaPiezas.getValueAt(selectedRow, 3).toString()); // Motor quantity
-            chasiscbox.setSelectedItem(TablaPiezas.getValueAt(selectedRow, 4).toString()); // Chasis quantity
-            frenoscbox.setSelectedItem(TablaPiezas.getValueAt(selectedRow, 5).toString()); // Frenos quantity
-            cajacbox.setSelectedItem(TablaPiezas.getValueAt(selectedRow, 6).toString()); // Caja quantity
-            llantascbox.setSelectedItem(TablaPiezas.getValueAt(selectedRow, 7).toString()); // Llantas quantity
-            bateriacbox.setSelectedItem(TablaPiezas.getValueAt(selectedRow, 8).toString()); // Bateria quantity
-            arrancadorcbox.setSelectedItem(TablaPiezas.getValueAt(selectedRow, 9).toString()); // Focos/Arrancador quantity
+            txtID.setText(TablaPiezas.getValueAt(selectedRow, 0).toString()); 
+            motorcbox.setSelectedItem(TablaPiezas.getValueAt(selectedRow, 3).toString()); 
+            chasiscbox.setSelectedItem(TablaPiezas.getValueAt(selectedRow, 4).toString()); 
+            frenoscbox.setSelectedItem(TablaPiezas.getValueAt(selectedRow, 5).toString()); 
+            cajacbox.setSelectedItem(TablaPiezas.getValueAt(selectedRow, 6).toString()); 
+            llantascbox.setSelectedItem(TablaPiezas.getValueAt(selectedRow, 7).toString()); 
+            bateriacbox.setSelectedItem(TablaPiezas.getValueAt(selectedRow, 8).toString()); 
+            arrancadorcbox.setSelectedItem(TablaPiezas.getValueAt(selectedRow, 9).toString());
         }
     }//GEN-LAST:event_TablaPiezasMouseClicked
 
     private void BtnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCerrarSesionActionPerformed
         int confirm = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea cerrar sesión?", "Confirmar cierre", JOptionPane.YES_NO_OPTION);
         if (confirm == JOptionPane.YES_OPTION) {
-            this.dispose(); // Cierra la ventana actual
-            // Crear e iniciar la ventana de inicio de sesión (Pagina_Logueo)
+            this.dispose(); 
+            
             Pagina_Logueo loginPage = new Pagina_Logueo();
-            loginPage.setVisible(true); // Hacer visible la ventana de inicio de sesión
+            loginPage.setVisible(true); 
         }
     }//GEN-LAST:event_BtnCerrarSesionActionPerformed
 

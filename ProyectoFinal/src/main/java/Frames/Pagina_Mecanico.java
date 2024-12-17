@@ -485,14 +485,14 @@ public class Pagina_Mecanico extends javax.swing.JFrame {
     }//GEN-LAST:event_btngenerarordenActionPerformed
 
     private void btnsolicitudpiezaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsolicitudpiezaActionPerformed
-        // Instantiate the Piezas frame
+        
         Piezas piezasFrame = new Piezas(this);
 
-        // Set it visible
+       
         piezasFrame.setVisible(true);
 
-        // Optionally hide or dispose of the current frame
-        this.dispose(); // Hides and releases resources of the current frame
+        
+        this.dispose();
     }//GEN-LAST:event_btnsolicitudpiezaActionPerformed
 
     private void tblordenesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblordenesMouseClicked
@@ -505,20 +505,20 @@ public class Pagina_Mecanico extends javax.swing.JFrame {
     private void BtnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCerrarSesionActionPerformed
            int confirm = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea cerrar sesión?", "Confirmar cierre", JOptionPane.YES_NO_OPTION);
         if (confirm == JOptionPane.YES_OPTION) {
-            this.dispose(); // Cierra la ventana actual
-            // Crear e iniciar la ventana de inicio de sesión (Pagina_Logueo)
+            this.dispose(); 
+            
             Pagina_Logueo loginPage = new Pagina_Logueo();
-            loginPage.setVisible(true); // Hacer visible la ventana de inicio de sesión
+            loginPage.setVisible(true); 
         }
     }//GEN-LAST:event_BtnCerrarSesionActionPerformed
 
     private void BtnEditarPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEditarPerfilActionPerformed
               int confirm = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea Editar el Perfil ", "Confirmar cierre", JOptionPane.YES_NO_OPTION);
         if (confirm == JOptionPane.YES_OPTION) {
-            this.dispose(); // Cierra la ventana actual
-            // Crear e iniciar la ventana de inicio de sesión (Pagina_Logueo)
+            this.dispose(); 
+            
             VisualizarPerfil editperfil = new VisualizarPerfil();
-            editperfil.setVisible(true); // Hacer visible la ventana de inicio de sesión
+            editperfil.setVisible(true);
         }
     }//GEN-LAST:event_BtnEditarPerfilActionPerformed
 

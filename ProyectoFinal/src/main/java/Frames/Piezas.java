@@ -48,9 +48,8 @@ public class Piezas extends javax.swing.JFrame {
                 try {
                     Thread.sleep(1000); 
                     consultarPiezas(); 
-                    System.out.println("Table refreshed at: " + java.time.LocalTime.now());
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    System.out.println(e);
                     break; 
                 }
             }

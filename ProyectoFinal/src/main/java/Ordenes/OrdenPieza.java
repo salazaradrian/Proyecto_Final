@@ -30,6 +30,7 @@ public class OrdenPieza extends Orden {
     protected int cantidadLlantas;
     protected int cantidadBateria;
     protected ArrayList<Piezas> piezas;
+    protected int tiempoRestante;
 
     public OrdenPieza(int id) {
         super(Estado.EnProceso, 0.0f);
@@ -46,11 +47,8 @@ public class OrdenPieza extends Orden {
         this.cantidadLlantas = cantidadLlantas;
         this.cantidadBateria = cantidadBateria;
         this.precio = calcularPrecio();
-        
-        
-        
-        
-        
+        this.tiempoRestante = calcularTiempoTotal();
+
     }
 
     public OrdenPieza(int id, int cantidadMotor, int cantidadChasis, int cantidadFrenos, int cantidadCaja, int cantidadFocos, int cantidadLlantas, int cantidadBateria, float precio) {
@@ -65,10 +63,10 @@ public class OrdenPieza extends Orden {
         this.id = id;
         this.precio = calcularPrecio();
     }
-    
+
     private float calcularPrecio() {
-        
-        float precioMotor = 100.0f; 
+
+        float precioMotor = 100.0f;
         float precioChasis = 150.0f;
         float precioFrenos = 50.0f;
         float precioCaja = 80.0f;
@@ -76,21 +74,27 @@ public class OrdenPieza extends Orden {
         float precioLlantas = 60.0f;
         float precioBateria = 40.0f;
 
-        return (cantidadMotor * precioMotor) +
-               (cantidadChasis * precioChasis) +
-               (cantidadFrenos * precioFrenos) +
-               (cantidadCaja * precioCaja) +
-               (cantidadFocos * precioFocos) +
-               (cantidadLlantas * precioLlantas) +
-               (cantidadBateria * precioBateria);
+        return (cantidadMotor * precioMotor)
+                + (cantidadChasis * precioChasis)
+                + (cantidadFrenos * precioFrenos)
+                + (cantidadCaja * precioCaja)
+                + (cantidadFocos * precioFocos)
+                + (cantidadLlantas * precioLlantas)
+                + (cantidadBateria * precioBateria);
     }
-    
 
-    public void agregar() {
+    private int calcularTiempoTotal() {
+        return (cantidadMotor * 10) + (cantidadChasis * 15) + (cantidadFrenos * 5)
+                + (cantidadCaja * 8) + (cantidadFocos * 2) + (cantidadLlantas * 7) + (cantidadBateria * 4);
+    }
+
+    public int agregar() {
         Conexion conexion = new Conexion();
+        
+        int generatedId = -1;
 
         String sql = "INSERT INTO orden_de_piezas (estado, precio, cantidadMotor, cantidadChasis, cantidadFrenos, "
-                + "cantidadCaja, cantidadFocos, cantidadLlantas, cantidadBateria) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "cantidadCaja, cantidadFocos, cantidadLlantas, cantidadBateria,tiempo_restante) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
             CallableStatement cs = conexion.conectar().prepareCall(sql);
@@ -104,11 +108,17 @@ public class OrdenPieza extends Orden {
             cs.setInt(7, this.cantidadFocos);
             cs.setInt(8, this.cantidadLlantas);
             cs.setInt(9, this.cantidadBateria);
+            cs.setInt(10, this.tiempoRestante);
 
-            cs.execute();
+            cs.executeUpdate();
 
-            JOptionPane.showMessageDialog(null, "El registro se ha guardado de manera exitosa");
-            actualizarInventario();
+            // Retrieve the generated keys (ID)
+            ResultSet rs = cs.getGeneratedKeys();
+            if (rs.next()) {
+                generatedId = rs.getInt(1); // Get the first column, which is the ID
+                this.id = generatedId; // Set the ID for the current object
+                JOptionPane.showMessageDialog(null, "Vehículo agregado exitosamente con ID: " + generatedId);
+            }
 
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al agregar el registro");
@@ -116,6 +126,8 @@ public class OrdenPieza extends Orden {
         } finally {
             conexion.desconectar();
         }
+        
+        return generatedId;
     }
 
     public static DefaultTableModel consultar() {
@@ -137,7 +149,7 @@ public class OrdenPieza extends Orden {
         modelo.addColumn("Focos");
         modelo.addColumn("Llantas");
         modelo.addColumn("Bateria");
-        modelo.addColumn("Progress");
+        modelo.addColumn("Tiempo Restante");
 
         String datos[] = new String[11];
         try {
@@ -155,6 +167,7 @@ public class OrdenPieza extends Orden {
                 datos[7] = String.valueOf(rs.getInt("cantidadFocos"));
                 datos[8] = String.valueOf(rs.getInt("cantidadLlantas"));
                 datos[9] = String.valueOf(rs.getInt("cantidadBateria"));
+                datos[10] = String.valueOf(rs.getInt("tiempo_restante"));
                 
 
                 modelo.addRow(datos);
@@ -288,8 +301,7 @@ public class OrdenPieza extends Orden {
             conexion.desconectar();
         }
     }
-    
-    
+
     public static DefaultTableModel consultarInventario() {
         Conexion conexion = new Conexion();
         DefaultTableModel modelo = new DefaultTableModel() {
@@ -333,11 +345,6 @@ public class OrdenPieza extends Orden {
 
         return modelo;
     }
-    
-    
-    
-    
-    
 
     public int getCodigo() {
         return id;
@@ -410,5 +417,39 @@ public class OrdenPieza extends Orden {
     public void setPiezas(ArrayList<Piezas> piezas) {
         this.piezas = piezas;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getCantidadChasis() {
+        return cantidadChasis;
+    }
+
+    public int getCantidadCaja() {
+        return cantidadCaja;
+    }
+
+    public int getTiempoRestante() {
+        return tiempoRestante;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setCantidadChasis(int cantidadChasis) {
+        this.cantidadChasis = cantidadChasis;
+    }
+
+    public void setCantidadCaja(int cantidadCaja) {
+        this.cantidadCaja = cantidadCaja;
+    }
+
+    public void setTiempoRestante(int tiempoRestante) {
+        this.tiempoRestante = tiempoRestante;
+    }
+    
+    
 
 }

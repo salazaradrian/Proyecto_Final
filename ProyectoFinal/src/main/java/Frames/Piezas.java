@@ -4,11 +4,9 @@
  */
 package Frames;
 
+import Ordenes.ReducidorTiempo;
 import Ordenes.OrdenPieza;
-import Ordenes.ProgressCellRenderer;
 import java.awt.Font;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import javax.swing.JOptionPane;
@@ -25,7 +23,6 @@ public class Piezas extends javax.swing.JFrame {
      * Creates new form Piezas
      */
     private Pagina_Mecanico paginaMecanico;
-    private Map<Integer, Integer> progressMap = new HashMap<>();
 
     public Piezas(Pagina_Mecanico paginaMecanico) {
         this.paginaMecanico = paginaMecanico;
@@ -46,49 +43,27 @@ public class Piezas extends javax.swing.JFrame {
 
         consultarPiezas();
 
-        TablaPiezas.getColumn("Progress").setCellRenderer(new ProgressCellRenderer());
+        new Thread(() -> {
+            while (true) {
+                try {
+                    Thread.sleep(1000); // Wait 5 seconds
+                    consultarPiezas();  // Refresh table data
+                    System.out.println("Table refreshed at: " + java.time.LocalTime.now());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    break; // Exit if interrupted
+                }
+            }
+        }).start();
 
     }
 
     private ExecutorService executor = Executors.newCachedThreadPool();
 
-    public void trackOrderProgress(int row) {
-        executor.execute(() -> {
-            int progress = 0;
-            while (progress <= 100) {
-                try {
-                    Thread.sleep(100); // Simulate work
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                final int currentProgress = progress;
-                SwingUtilities.invokeLater(() -> {
-                    TablaPiezas.setValueAt(currentProgress, row, TablaPiezas.getColumn("Progress").getModelIndex());
-                });
-                progress += 5;
-            }
-        });
-    }
-    
-    
-
     public void consultarPiezas() {
         DefaultTableModel modelo = OrdenPieza.consultar();
         TablaPiezas.setModel(modelo);
 
-        // Ensure the Progress column has the correct renderer
-        TablaPiezas.getColumn("Progress").setCellRenderer(new ProgressCellRenderer());
-
-        // Re-populate the progress values
-        for (int i = 0; i < TablaPiezas.getRowCount(); i++) {
-            int orderId = Integer.parseInt(TablaPiezas.getValueAt(i, 0).toString());
-            Integer progress = progressMap.get(orderId);
-            if (progress != null) {
-                TablaPiezas.setValueAt(progress, i, TablaPiezas.getColumn("Progress").getModelIndex());
-            } else {
-                TablaPiezas.setValueAt(0, i, TablaPiezas.getColumn("Progress").getModelIndex());
-            }
-        }
     }
 
     private void cerrarVentana() {
@@ -160,12 +135,12 @@ public class Piezas extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setText("Motor:");
 
-        motorcbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
+        motorcbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel6.setText("Frenos:");
 
-        frenoscbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
+        frenoscbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel7.setText("Chasis:");
@@ -173,24 +148,24 @@ public class Piezas extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel8.setText("Caja:");
 
-        chasiscbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
+        chasiscbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
 
-        cajacbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
+        cajacbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel9.setText("Llantas:");
 
-        llantascbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
+        llantascbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel10.setText("Bateria:");
 
-        bateriacbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
+        bateriacbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel11.setText("Focos");
 
-        arrancadorcbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
+        arrancadorcbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -401,20 +376,15 @@ public class Piezas extends javax.swing.JFrame {
 
         OrdenPieza orden = new OrdenPieza(cantidadMotor, cantidadChasis, cantidadFrenos, cantidadCaja, cantidadFocos, cantidadLlantas, cantidadBateria, 0.0f);
 
-        orden.agregar();
-
-        // Update the progress map with the new order ID (e.g., generated in the database)
-        int newOrderId = orden.getCodigo(); // Ensure you can retrieve the new order ID
-        progressMap.put(newOrderId, 0); // Initialize progress to 0
+        int codigo = orden.agregar();
 
         consultarPiezas();
 
-        int rowIndex = TablaPiezas.getRowCount() - 1; // Get the last row index (newly added order)
-        trackOrderProgress(rowIndex);
-
         limpiar();
 
-        paginaMecanico.consultarInventarioPiezas();
+        ReducidorTiempo timer = new ReducidorTiempo(codigo, orden.getTiempoRestante(), orden);
+        timer.start();
+
     }//GEN-LAST:event_btnagregarpiezaActionPerformed
 
     private void btnactualizarpiezaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnactualizarpiezaActionPerformed
@@ -439,9 +409,6 @@ public class Piezas extends javax.swing.JFrame {
             orden.editar();
 
             consultarPiezas();
-
-            int rowIndex = TablaPiezas.getRowCount() - 1; // Get last row index
-            trackOrderProgress(rowIndex); // Start progress tracking
 
             limpiar();
 
@@ -500,7 +467,7 @@ public class Piezas extends javax.swing.JFrame {
     }//GEN-LAST:event_TablaPiezasMouseClicked
 
     private void BtnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCerrarSesionActionPerformed
-             int confirm = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea cerrar sesión?", "Confirmar cierre", JOptionPane.YES_NO_OPTION);
+        int confirm = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea cerrar sesión?", "Confirmar cierre", JOptionPane.YES_NO_OPTION);
         if (confirm == JOptionPane.YES_OPTION) {
             this.dispose(); // Cierra la ventana actual
             // Crear e iniciar la ventana de inicio de sesión (Pagina_Logueo)

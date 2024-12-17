@@ -263,7 +263,7 @@ public class OrdenReparacion extends Orden {
 
     }
 
-    public static void restarInventario(int motor, int chasis, int llantas, int frenos, int caja, int bateria, int arrancador) {
+    public static void restarInventario(int motor, int chasis, int llantas, int frenos, int caja, int bateria, int arrancador, int focos) {
         Conexion conexion = new Conexion();
 
         try {
@@ -286,7 +286,7 @@ public class OrdenReparacion extends Orden {
                 int updatedChasis = currentChasis - chasis;
                 int updatedFrenos = currentFrenos - frenos;
                 int updatedCaja = currentCaja - caja;
-                int updatedFocos = currentFocos - arrancador;
+                int updatedFocos = currentFocos - focos;
                 int updatedLlantas = currentLlantas - llantas;
                 int updatedBateria = currentBateria - bateria;
 

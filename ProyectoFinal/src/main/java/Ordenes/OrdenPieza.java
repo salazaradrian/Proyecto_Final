@@ -90,7 +90,7 @@ public class OrdenPieza extends Orden {
 
     public int agregar() {
         Conexion conexion = new Conexion();
-        
+
         int generatedId = -1;
 
         String sql = "INSERT INTO orden_de_piezas (estado, precio, cantidadMotor, cantidadChasis, cantidadFrenos, "
@@ -112,11 +112,10 @@ public class OrdenPieza extends Orden {
 
             cs.executeUpdate();
 
-            
             ResultSet rs = cs.getGeneratedKeys();
             if (rs.next()) {
-                generatedId = rs.getInt(1); 
-                this.id = generatedId; 
+                generatedId = rs.getInt(1);
+                this.id = generatedId;
                 JOptionPane.showMessageDialog(null, "Vehículo agregado exitosamente con ID: " + generatedId);
             }
 
@@ -126,7 +125,7 @@ public class OrdenPieza extends Orden {
         } finally {
             conexion.desconectar();
         }
-        
+
         return generatedId;
     }
 
@@ -168,7 +167,6 @@ public class OrdenPieza extends Orden {
                 datos[8] = String.valueOf(rs.getInt("cantidadLlantas"));
                 datos[9] = String.valueOf(rs.getInt("cantidadBateria"));
                 datos[10] = String.valueOf(rs.getInt("tiempo_restante"));
-                
 
                 modelo.addRow(datos);
             }
@@ -301,6 +299,7 @@ public class OrdenPieza extends Orden {
             conexion.desconectar();
         }
     }
+
 
     public static DefaultTableModel consultarInventario() {
         Conexion conexion = new Conexion();
@@ -449,7 +448,5 @@ public class OrdenPieza extends Orden {
     public void setTiempoRestante(int tiempoRestante) {
         this.tiempoRestante = tiempoRestante;
     }
-    
-    
 
 }

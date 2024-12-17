@@ -223,6 +223,110 @@ public class OrdenReparacion extends Orden {
 
         return modelo;
     }
+    
+    
+    public void compararInventario(int motor, int chasis, int llantas, int frenos, int caja, int bateria, int arrancador) {
+        Conexion conexion = new Conexion();
+        ArrayList<Integer> inventario = new ArrayList<>();
+
+        try {
+            String sqlSelect = "SELECT totalMotor, totalChasis, totalFrenos, totalCaja, totalFocos, totalLlantas, totalBateria "
+                    + "FROM inventario_piezas WHERE id = 1"; // Assuming a single row for inventory
+            PreparedStatement psSelect = conexion.conectar().prepareStatement(sqlSelect);
+            ResultSet rs = psSelect.executeQuery();
+
+            if (rs.next()) {
+
+                int currentMotor = rs.getInt("totalMotor");
+                int currentChasis = rs.getInt("totalChasis");
+                int currentFrenos = rs.getInt("totalFrenos");
+                int currentCaja = rs.getInt("totalCaja");
+                int currentFocos = rs.getInt("totalFocos");
+                int currentLlantas = rs.getInt("totalLlantas");
+                int currentBateria = rs.getInt("totalBateria");
+
+                if(motor <= currentMotor & chasis <= currentChasis & frenos <= currentFrenos & caja <= currentCaja & arrancador <= currentFocos & llantas <= currentLlantas & bateria <=currentBateria){
+                    
+                    OrdenReparacion.restarInventario(motor, chasis, llantas, frenos, caja, bateria, arrancador);
+                    this.editar();
+                }else{
+                    JOptionPane.showMessageDialog(null, "No es posible actualizar la orden");
+                }
+
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al editar el registro");
+            System.out.println("Error Consulta: " + ex.toString());
+        } finally {
+            conexion.desconectar();
+        }
+
+    }
+
+    public static void restarInventario(int motor, int chasis, int llantas, int frenos, int caja, int bateria, int arrancador) {
+        Conexion conexion = new Conexion();
+
+        try {
+            String sqlSelect = "SELECT totalMotor, totalChasis, totalFrenos, totalCaja, totalFocos, totalLlantas, totalBateria "
+                    + "FROM inventario_piezas WHERE id = 1"; // Assuming a single row for inventory
+            PreparedStatement psSelect = conexion.conectar().prepareStatement(sqlSelect);
+            ResultSet rs = psSelect.executeQuery();
+
+            if (rs.next()) {
+
+                int currentMotor = rs.getInt("totalMotor");
+                int currentChasis = rs.getInt("totalChasis");
+                int currentFrenos = rs.getInt("totalFrenos");
+                int currentCaja = rs.getInt("totalCaja");
+                int currentFocos = rs.getInt("totalFocos");
+                int currentLlantas = rs.getInt("totalLlantas");
+                int currentBateria = rs.getInt("totalBateria");
+
+                int updatedMotor = currentMotor - motor;
+                int updatedChasis = currentChasis - chasis;
+                int updatedFrenos = currentFrenos - frenos;
+                int updatedCaja = currentCaja - caja;
+                int updatedFocos = currentFocos - arrancador;
+                int updatedLlantas = currentLlantas - llantas;
+                int updatedBateria = currentBateria - bateria;
+
+                String sqlUpdate = "UPDATE inventario_piezas SET totalMotor = ?, totalChasis = ?, totalFrenos = ?, "
+                        + "totalCaja = ?, totalFocos = ?, totalLlantas = ?, totalBateria = ? WHERE id = 1";
+
+                PreparedStatement psUpdate = conexion.conectar().prepareStatement(sqlUpdate);
+
+                psUpdate.setInt(1, updatedMotor);
+                psUpdate.setInt(2, updatedChasis);
+                psUpdate.setInt(3, updatedFrenos);
+                psUpdate.setInt(4, updatedCaja);
+                psUpdate.setInt(5, updatedFocos);
+                psUpdate.setInt(6, updatedLlantas);
+                psUpdate.setInt(7, updatedBateria);
+
+                int rowsAffected = psUpdate.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Inventario actualizado correctamente.");
+
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al editar el registro");
+            System.out.println("Error Consulta: " + ex.toString());
+        } finally {
+            conexion.desconectar();
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     public ArrayList<Piezas> getPiezas() {
         return piezas;

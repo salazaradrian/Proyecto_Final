@@ -48,8 +48,8 @@ public class Pagina_Mecanico extends javax.swing.JFrame {
         DefaultTableModel modelo = OrdenReparacion.consultar();
         tblordenes.setModel(modelo);
     }
-    
-    public void limpiar(){
+
+    public void limpiar() {
         txtid.setText("");
         cboxestado.setSelectedIndex(0);
         cboxmotor.setSelectedIndex(0);
@@ -97,7 +97,7 @@ public class Pagina_Mecanico extends javax.swing.JFrame {
         txtid = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
         cboxestado = new javax.swing.JComboBox();
-        jLabel2 = new javax.swing.JLabel();
+        txtnotificacion = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         cboxchasis = new javax.swing.JComboBox<>();
         cboxcaja = new javax.swing.JComboBox<>();
@@ -233,6 +233,11 @@ public class Pagina_Mecanico extends javax.swing.JFrame {
         BtnCerrarSesion.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         BtnCerrarSesion.setText("Cerrar Sesion");
         BtnCerrarSesion.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, null, null, new java.awt.Color(255, 102, 0)));
+        BtnCerrarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BtnCerrarSesionMouseClicked(evt);
+            }
+        });
         BtnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnCerrarSesionActionPerformed(evt);
@@ -266,8 +271,8 @@ public class Pagina_Mecanico extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
-        jLabel2.setText("Notificaciones");
+        txtnotificacion.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
+        txtnotificacion.setText("Notificaciones");
 
         jLabel14.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel14.setText("Caja:");
@@ -319,7 +324,7 @@ public class Pagina_Mecanico extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
-                .addComponent(jLabel2)
+                .addComponent(txtnotificacion)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
@@ -401,7 +406,7 @@ public class Pagina_Mecanico extends javax.swing.JFrame {
                     .addComponent(cboxarrancador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
+                    .addComponent(txtnotificacion)
                     .addComponent(btngenerarorden, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(5, 5, 5))
         );
@@ -473,10 +478,11 @@ public class Pagina_Mecanico extends javax.swing.JFrame {
             int caja = cboxcaja.getSelectedIndex();
             int bateria = cboxbateria.getSelectedIndex();
             int arrancador = cboxarrancador.getSelectedIndex();
-            
+
             OrdenReparacion orden = new OrdenReparacion(codigo, motor, chasis, frenos, caja, arrancador, llantas, bateria, estado);
-            orden.editar();
+            orden.compararInventario(motor, chasis, llantas, frenos, caja, bateria, arrancador);
             consultarOrdenes();
+            consultarInventarioPiezas();
             limpiar();
 
         } catch (NumberFormatException ex) {
@@ -485,13 +491,11 @@ public class Pagina_Mecanico extends javax.swing.JFrame {
     }//GEN-LAST:event_btngenerarordenActionPerformed
 
     private void btnsolicitudpiezaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsolicitudpiezaActionPerformed
-        
+
         Piezas piezasFrame = new Piezas(this);
 
-       
         piezasFrame.setVisible(true);
 
-        
         this.dispose();
     }//GEN-LAST:event_btnsolicitudpiezaActionPerformed
 
@@ -503,24 +507,28 @@ public class Pagina_Mecanico extends javax.swing.JFrame {
     }//GEN-LAST:event_tblordenesMouseClicked
 
     private void BtnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCerrarSesionActionPerformed
-           int confirm = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea cerrar sesión?", "Confirmar cierre", JOptionPane.YES_NO_OPTION);
+        int confirm = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea cerrar sesión?", "Confirmar cierre", JOptionPane.YES_NO_OPTION);
         if (confirm == JOptionPane.YES_OPTION) {
-            this.dispose(); 
-            
+            this.dispose();
+
             Pagina_Logueo loginPage = new Pagina_Logueo();
-            loginPage.setVisible(true); 
+            loginPage.setVisible(true);
         }
     }//GEN-LAST:event_BtnCerrarSesionActionPerformed
 
     private void BtnEditarPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEditarPerfilActionPerformed
-              int confirm = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea Editar el Perfil ", "Confirmar cierre", JOptionPane.YES_NO_OPTION);
+        int confirm = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea Editar el Perfil ", "Confirmar cierre", JOptionPane.YES_NO_OPTION);
         if (confirm == JOptionPane.YES_OPTION) {
-            this.dispose(); 
-            
+            this.dispose();
+
             VisualizarPerfil editperfil = new VisualizarPerfil();
             editperfil.setVisible(true);
         }
     }//GEN-LAST:event_BtnEditarPerfilActionPerformed
+
+    private void BtnCerrarSesionMouseClicked(java.awt.event.MouseEvent evt) {
+        // Your code here
+    }
 
     /**
      * @param args the command line arguments
@@ -589,7 +597,6 @@ public class Pagina_Mecanico extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
@@ -603,5 +610,6 @@ public class Pagina_Mecanico extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tblordenes;
     private javax.swing.JTextField txtid;
+    private javax.swing.JLabel txtnotificacion;
     // End of variables declaration//GEN-END:variables
 }

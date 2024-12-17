@@ -379,6 +379,7 @@ public class Piezas extends javax.swing.JFrame {
         int codigo = orden.agregar();
 
         consultarPiezas();
+        paginaMecanico.consultarInventarioPiezas();
 
         limpiar();
 

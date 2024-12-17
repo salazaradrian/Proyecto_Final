@@ -26,7 +26,7 @@ public class OrdenPieza extends Orden {
     protected int cantidadChasis;
     protected int cantidadFrenos;
     protected int cantidadCaja;
-    protected int cantidadFocos;
+    protected int cantidadArrancador;
     protected int cantidadLlantas;
     protected int cantidadBateria;
     protected ArrayList<Piezas> piezas;
@@ -37,13 +37,13 @@ public class OrdenPieza extends Orden {
         this.id = id;
     }
 
-    public OrdenPieza(int cantidadMotor, int cantidadChasis, int cantidadFrenos, int cantidadCaja, int cantidadFocos, int cantidadLlantas, int cantidadBateria, float precio) {
+    public OrdenPieza(int cantidadMotor, int cantidadChasis, int cantidadFrenos, int cantidadCaja, int cantidadArrancador, int cantidadLlantas, int cantidadBateria, float precio) {
         super(Estado.EnProceso, 0.0f);
         this.cantidadMotor = cantidadMotor;
         this.cantidadChasis = cantidadChasis;
         this.cantidadFrenos = cantidadFrenos;
         this.cantidadCaja = cantidadCaja;
-        this.cantidadFocos = cantidadFocos;
+        this.cantidadArrancador = cantidadArrancador;
         this.cantidadLlantas = cantidadLlantas;
         this.cantidadBateria = cantidadBateria;
         this.precio = calcularPrecio();
@@ -51,13 +51,13 @@ public class OrdenPieza extends Orden {
 
     }
 
-    public OrdenPieza(int id, int cantidadMotor, int cantidadChasis, int cantidadFrenos, int cantidadCaja, int cantidadFocos, int cantidadLlantas, int cantidadBateria, float precio) {
+    public OrdenPieza(int id, int cantidadMotor, int cantidadChasis, int cantidadFrenos, int cantidadCaja, int cantidadArrancador, int cantidadLlantas, int cantidadBateria, float precio) {
         super(Estado.EnProceso, 0.0f);
         this.cantidadMotor = cantidadMotor;
         this.cantidadChasis = cantidadChasis;
         this.cantidadFrenos = cantidadFrenos;
         this.cantidadCaja = cantidadCaja;
-        this.cantidadFocos = cantidadFocos;
+        this.cantidadArrancador = cantidadArrancador;
         this.cantidadLlantas = cantidadLlantas;
         this.cantidadBateria = cantidadBateria;
         this.id = id;
@@ -78,14 +78,14 @@ public class OrdenPieza extends Orden {
                 + (cantidadChasis * precioChasis)
                 + (cantidadFrenos * precioFrenos)
                 + (cantidadCaja * precioCaja)
-                + (cantidadFocos * precioFocos)
+                + (cantidadArrancador * cantidadArrancador)
                 + (cantidadLlantas * precioLlantas)
                 + (cantidadBateria * precioBateria);
     }
 
     private int calcularTiempoTotal() {
         return (cantidadMotor * 10) + (cantidadChasis * 15) + (cantidadFrenos * 5)
-                + (cantidadCaja * 8) + (cantidadFocos * 2) + (cantidadLlantas * 7) + (cantidadBateria * 4);
+                + (cantidadCaja * 8) + (cantidadArrancador * 2) + (cantidadLlantas * 7) + (cantidadBateria * 4);
     }
 
     public int agregar() {
@@ -105,7 +105,7 @@ public class OrdenPieza extends Orden {
             cs.setInt(4, this.cantidadChasis);
             cs.setInt(5, this.cantidadFrenos);
             cs.setInt(6, this.cantidadCaja);
-            cs.setInt(7, this.cantidadFocos);
+            cs.setInt(7, this.cantidadArrancador);
             cs.setInt(8, this.cantidadLlantas);
             cs.setInt(9, this.cantidadBateria);
             cs.setInt(10, this.tiempoRestante);
@@ -145,7 +145,7 @@ public class OrdenPieza extends Orden {
         modelo.addColumn("Chasis");
         modelo.addColumn("Frenos");
         modelo.addColumn("Caja");
-        modelo.addColumn("Focos");
+        modelo.addColumn("Arrancador");
         modelo.addColumn("Llantas");
         modelo.addColumn("Bateria");
         modelo.addColumn("Tiempo Restante");
@@ -163,7 +163,7 @@ public class OrdenPieza extends Orden {
                 datos[4] = String.valueOf(rs.getInt("cantidadChasis"));
                 datos[5] = String.valueOf(rs.getInt("cantidadFrenos"));
                 datos[6] = String.valueOf(rs.getInt("cantidadCaja"));
-                datos[7] = String.valueOf(rs.getInt("cantidadFocos"));
+                datos[7] = String.valueOf(rs.getInt("cantidadArrancador"));
                 datos[8] = String.valueOf(rs.getInt("cantidadLlantas"));
                 datos[9] = String.valueOf(rs.getInt("cantidadBateria"));
                 datos[10] = String.valueOf(rs.getInt("tiempo_restante"));
@@ -197,7 +197,7 @@ public class OrdenPieza extends Orden {
             cs.setInt(4, this.cantidadChasis);
             cs.setInt(5, this.cantidadFrenos);
             cs.setInt(6, this.cantidadCaja);
-            cs.setInt(7, this.cantidadFocos);
+            cs.setInt(7, this.cantidadArrancador);
             cs.setInt(8, this.cantidadLlantas);
             cs.setInt(9, this.cantidadBateria);
             cs.setInt(10, this.id);
@@ -210,7 +210,7 @@ public class OrdenPieza extends Orden {
             System.out.println("cantidadChasis: " + this.cantidadChasis);
             System.out.println("cantidadFrenos: " + this.cantidadFrenos);
             System.out.println("cantidadCaja: " + this.cantidadCaja);
-            System.out.println("cantidadFocos: " + this.cantidadFocos);
+            System.out.println("cantidadFocos: " + this.cantidadArrancador);
             System.out.println("cantidadLlantas: " + this.cantidadLlantas);
             System.out.println("cantidadBateria: " + this.cantidadBateria);
             System.out.println("id: " + this.id);
@@ -263,7 +263,7 @@ public class OrdenPieza extends Orden {
                 int currentChasis = rs.getInt("totalChasis");
                 int currentFrenos = rs.getInt("totalFrenos");
                 int currentCaja = rs.getInt("totalCaja");
-                int currentFocos = rs.getInt("totalFocos");
+                int currentFocos = rs.getInt("totalArrancador");
                 int currentLlantas = rs.getInt("totalLlantas");
                 int currentBateria = rs.getInt("totalBateria");
 
@@ -271,7 +271,7 @@ public class OrdenPieza extends Orden {
                 int updatedChasis = currentChasis + this.cantidadChasis;
                 int updatedFrenos = currentFrenos + this.cantidadFrenos;
                 int updatedCaja = currentCaja + this.cantidadCaja;
-                int updatedFocos = currentFocos + this.cantidadFocos;
+                int updatedArrancador = currentFocos + this.cantidadArrancador;
                 int updatedLlantas = currentLlantas + this.cantidadLlantas;
                 int updatedBateria = currentBateria + this.cantidadBateria;
 
@@ -284,7 +284,7 @@ public class OrdenPieza extends Orden {
                 psUpdate.setInt(2, updatedChasis);
                 psUpdate.setInt(3, updatedFrenos);
                 psUpdate.setInt(4, updatedCaja);
-                psUpdate.setInt(5, updatedFocos);
+                psUpdate.setInt(5, updatedArrancador);
                 psUpdate.setInt(6, updatedLlantas);
                 psUpdate.setInt(7, updatedBateria);
 
@@ -314,7 +314,7 @@ public class OrdenPieza extends Orden {
         modelo.addColumn("Chasis");
         modelo.addColumn("Frenos");
         modelo.addColumn("Caja");
-        modelo.addColumn("Focos");
+        modelo.addColumn("Arrancador");
         modelo.addColumn("Llantas");
         modelo.addColumn("Bateria");
 
@@ -328,7 +328,7 @@ public class OrdenPieza extends Orden {
                 datos[1] = String.valueOf(rs.getInt("totalChasis"));
                 datos[2] = String.valueOf(rs.getInt("totalFrenos"));
                 datos[3] = String.valueOf(rs.getInt("totalCaja"));
-                datos[4] = String.valueOf(rs.getInt("totalFocos"));
+                datos[4] = String.valueOf(rs.getInt("totalArrancador"));
                 datos[5] = String.valueOf(rs.getInt("totalLlantas"));
                 datos[6] = String.valueOf(rs.getInt("totalBateria"));
 
@@ -365,8 +365,8 @@ public class OrdenPieza extends Orden {
         return cantidadCaja;
     }
 
-    public int getCantidadFocos() {
-        return cantidadFocos;
+    public int getCantidadArrancador() {
+        return cantidadArrancador;
     }
 
     public int getCantidadLlantas() {
@@ -401,8 +401,8 @@ public class OrdenPieza extends Orden {
         this.cantidadCaja = cantidadcaja;
     }
 
-    public void setCantidadFocos(int cantidadFocos) {
-        this.cantidadFocos = cantidadFocos;
+    public void setCantidadArrancador(int CantidadArrancador) {
+        this.cantidadArrancador = cantidadArrancador;
     }
 
     public void setCantidadLlantas(int cantidadLlantas) {

@@ -44,7 +44,7 @@ public class OrdenReparacion extends Orden {
 
     }
 
-    public OrdenReparacion(int id, int cantidadMotor, int cantidadChasis, int cantidadFrenos, int cantidadCaja, int cantidadFocos, int cantidadLlantas, int cantidadBateria, Estado estado) {
+    public OrdenReparacion(int id, int cantidadMotor, int cantidadChasis, int cantidadFrenos, int cantidadCaja, int cantidadArrancador, int cantidadLlantas, int cantidadBateria, Estado estado) {
         super(Estado.EnProceso, 0.0f);
         this.id = id;
 
@@ -54,21 +54,21 @@ public class OrdenReparacion extends Orden {
         agregarPiezas(Piezas.Chasis, cantidadChasis, piezas);
         agregarPiezas(Piezas.Frenos, cantidadFrenos, piezas);
         agregarPiezas(Piezas.Caja, cantidadCaja, piezas);
-        agregarPiezas(Piezas.Arrancador, cantidadFocos, piezas);
+        agregarPiezas(Piezas.Arrancador, cantidadArrancador, piezas);
         agregarPiezas(Piezas.Llantas, cantidadLlantas, piezas);
         agregarPiezas(Piezas.Bateria, cantidadBateria, piezas);
 
         this.piezas = piezas;
-        this.precio = CalcularPrecio(cantidadMotor, cantidadChasis, cantidadFrenos, cantidadCaja, cantidadFocos, cantidadLlantas, cantidadBateria);
+        this.precio = CalcularPrecio(cantidadMotor, cantidadChasis, cantidadFrenos, cantidadCaja, cantidadArrancador, cantidadLlantas, cantidadBateria);
         this.estado = estado;
     }
 
-    private float CalcularPrecio(int cantidadMotor, int cantidadChasis, int cantidadFrenos, int cantidadCaja, int cantidadFocos, int cantidadLlantas, int cantidadBateria) {
+    private float CalcularPrecio(int cantidadMotor, int cantidadChasis, int cantidadFrenos, int cantidadCaja, int cantidadArrancador, int cantidadLlantas, int cantidadBateria) {
         float precioMotor = 100.0f;
         float precioChasis = 150.0f;
         float precioFrenos = 50.0f;
         float precioCaja = 80.0f;
-        float precioFocos = 30.0f;
+        float precioArrancador = 30.0f;
         float precioLlantas = 60.0f;
         float precioBateria = 40.0f;
 
@@ -76,7 +76,7 @@ public class OrdenReparacion extends Orden {
                 + (cantidadChasis * precioChasis)
                 + (cantidadFrenos * precioFrenos)
                 + (cantidadCaja * precioCaja)
-                + (cantidadFocos * precioFocos)
+                + (cantidadArrancador * precioArrancador)
                 + (cantidadLlantas * precioLlantas)
                 + (cantidadBateria * precioBateria);
     }
